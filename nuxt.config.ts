@@ -17,12 +17,20 @@
  */
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
+require('dotenv').config();
+
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   css: ['vuetify/lib/styles/main.sass'],
+  plugins: ['~/plugins/supabase.js'],
   devtools: { enabled: true },
-  modules: ['@nuxtjs/supabase'],
+  modules: [],
   build: {
     transpile: ['vuetify'],
   },
+  publicRuntimeConfig: {  
+    supabaseUrl: process.env.SUPABASE_URL,  
+    supabaseKey: process.env.SUPABASE_KEY,  
+  }, 
 })

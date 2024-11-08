@@ -10,8 +10,9 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@nuxtjs/supabase": "^1.2.2",
+    "@supabase/supabase-js": "^2.46.1",
     "autoprefixer": "^10.4.20",
+    "dotenv": "^16.4.5",
     "nuxt": "^3.14.159",
     "postcss": "^8.4.47",
     "sass": "^1.80.6",
