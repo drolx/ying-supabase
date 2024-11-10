@@ -20,6 +20,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
   modules: [
+    '@vueuse/nuxt',
     '@nuxtjs/supabase',
     'vuetify-nuxt-module',
     '@unocss/nuxt',
@@ -35,7 +36,7 @@ export default defineNuxtConfig({
       login: '/auth/login',
       callback: '/auth/confirm',
       include: undefined,
-      exclude: [],
+      exclude: ['/auth/*'],
       cookieRedirect: true,
     },
   }

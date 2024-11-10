@@ -1,7 +1,7 @@
 <script setup lang="ts">
-const supabase = useSupabaseClient();
-const supabaseUser = useSupabaseUser();
+import { computedAsync } from '@vueuse/core'
 
+const supabase = useSupabaseClient();
 const triggerSignOut = async () => {
   const { error } = await supabase.auth.signOut();
   if (error) {
@@ -11,7 +11,14 @@ const triggerSignOut = async () => {
   }
 }
 
-const user = computed(() => supabaseUser.value);
+const user = computedAsync(async () => {
+  const { data } = await supabase.auth.getUser();
+  
+  return {
+    email: data?.user?.email,
+    displayName: `${data.user?.user_metadata?.firstName} ${data.user?.user_metadata?.lastName}`,
+  }
+}, null);
 
 const drawer = ref(true);
 const rail = ref(false);
@@ -34,7 +41,7 @@ const links = [
               <v-avatar class="mb-1" color="grey-darken-1" size="64"></v-avatar>
             </template>
             <template #title>
-              <span class="font-bold">{{ 'Demo User' }}</span>
+              <span class="font-bold">{{ user?.displayName }}</span>
             </template>
             <template #subtitle>
               <span>{{ user?.email }}</span>

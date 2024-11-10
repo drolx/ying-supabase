@@ -6,7 +6,7 @@ definePageMeta({
 
 const supabase = useSupabaseClient();
 const state = reactive({
-  logining: false,
+  loading: false,
   username: '',
   password: '',
 })
@@ -15,15 +15,18 @@ const passwordInput = ref();
 const isValidLogin = computed(() => state.username.length < 5 && state.password.length < 5);
 
 const triggerLogin = async () => {
-  const { error } = await supabase.auth.signInWithPassword({
-    email: state.username,
-    password: state.password,
-  })
+  try {
+    const { error } = await supabase.auth.signInWithPassword({
+      email: state.username,
+      password: state.password,
+    })
 
-  if (error) {
-    console.log(error)
-  } else {
-    navigateTo('/auth/confirm');
+    if (error) throw error;
+    else {
+      navigateTo('/auth/confirm');
+    }
+  } catch (error) {
+    console.log(error);
   }
 }
 </script>
@@ -59,7 +62,7 @@ const triggerLogin = async () => {
       <v-col cols="12">
         <v-btn color="primary" class="py-5" block :disabled="isValidLogin" @click="triggerLogin">
           {{ 'Log In' }}
-          <v-progress-circular indeterminate size="22" class="ml-2" v-if="state.logining"></v-progress-circular>
+          <v-progress-circular indeterminate size="22" class="ml-2" v-if="state.loading"></v-progress-circular>
         </v-btn>
       </v-col>
 
