@@ -108,7 +108,7 @@ const deleteItem = async (value: any) => {
           </v-btn>
         </template>
         <template v-slot:default="{ isActive }">
-          <v-card prepend-icon="mdi-account" title="User Profile">
+          <v-card prepend-icon="mdi-account" title="Create Tag">
             <v-card-text>
               <v-row dense>
                 <v-col cols="12">
