@@ -39,9 +39,10 @@ const loadItems = async (args: { page: number, itemsPerPage: number, sortBy: { k
     if (error) throw error;
     totalItems.value = count ?? 0;
     serverItems.value = data as any[];
-    loading.value = false;
   } catch (error) {
     console.log(error);
+  } finally {
+    loading.value = false;
   }
 }
 

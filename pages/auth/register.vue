@@ -16,32 +16,37 @@ const state = reactive({
 });
 
 const triggerRegistration = async () => {
+  state.loading = true;
   const { firstName, lastName, email, password, passwordRepeat } = state;
   if (password !== passwordRepeat) {
     console.log('Password error!')
     return;
   }
 
-  const { error, data } = await client.auth.signUp({
-    email,
-    password,
-    options: {
-      data: {
-        firstName,
-        lastName,
-        email,
-        customer: false,
+  try {
+    const { error, data } = await client.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          firstName,
+          lastName,
+          email,
+          customer: false,
+        },
+        // TODO: Use env and host address
+        // emailRedirectTo: 'http://localhost:3000/auth/login',
       },
-      emailRedirectTo: 'http://localhost:3000/auth/login',
-    },
-  });
-
-  if (error) {
-    console.log('Something went wrong !');
-    return;
-  } else {
-    console.log(data);
-    navigateTo('/');
+    });
+    if (error) {
+      throw error;
+    } else {
+      navigateTo('/');
+    }
+  } catch (error) {
+    console.log(error);
+  } finally {
+    state.loading = false;
   }
 }
 </script>

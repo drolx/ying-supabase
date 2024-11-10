@@ -1,13 +1,16 @@
-<template>
-  <div>
-    
-  </div>
-</template>
+<script setup lang="ts">
+const route = useRoute();
 
-<script lang="ts" setup>
+definePageMeta({
+  validate: async (route
+  ) => {
+    return typeof route.params.id === 'string' && /^\d+$/.test(route.params.id)
+  }
+});
 
+console.log(route.params.id)
 </script>
 
-<style>
-
-</style>
+<template>
+  <div>{{ '' }}</div>
+</template>

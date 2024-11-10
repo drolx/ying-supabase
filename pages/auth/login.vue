@@ -12,9 +12,11 @@ const state = reactive({
 })
 const passwordInput = ref();
 
-const isValidLogin = computed(() => state.username.length < 5 && state.password.length < 5);
+// TODO: Explore standard validation
+// const isValidLogin = computed(() => state.username.length < 5 && state.password.length < 5);
 
 const triggerLogin = async () => {
+  state.loading = true;
   try {
     const { error } = await supabase.auth.signInWithPassword({
       email: state.username,
@@ -27,6 +29,8 @@ const triggerLogin = async () => {
     }
   } catch (error) {
     console.log(error);
+  } finally {
+    state.loading = false;
   }
 }
 </script>
@@ -60,7 +64,7 @@ const triggerLogin = async () => {
       </v-col>
 
       <v-col cols="12">
-        <v-btn color="primary" class="py-5" block :disabled="isValidLogin" @click="triggerLogin">
+        <v-btn color="primary" class="py-5" block @click="triggerLogin">
           {{ 'Log In' }}
           <v-progress-circular indeterminate size="22" class="ml-2" v-if="state.loading"></v-progress-circular>
         </v-btn>
