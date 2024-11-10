@@ -25,7 +25,7 @@
     "sup:stop": "bun sup stop",
     "sup:test": "bun sup test",
     "sup:inspect": "bun sup inspect",
-    "sup:types": "bun sup gen types --local --lang=typescript --schema public --schema auth"
+    "sup:types": "bun sup gen types --local --lang=typescript --schema public > supabase/database.types.ts"
   },
   "dependencies": {
     "@nuxtjs/supabase": "^1.4.2",
