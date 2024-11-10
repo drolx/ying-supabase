@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computedAsync } from '@vueuse/core'
+import { computedAsync } from '@vueuse/core';
 
 const supabase = useSupabaseClient();
 const triggerSignOut = async () => {

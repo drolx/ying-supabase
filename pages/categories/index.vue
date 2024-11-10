@@ -1,37 +1,77 @@
-<template>
-    <v-container>
-        <v-row align="center" justify="center" class="mt-12">
-            <h1 class="">Here is the list of the currently available categories.</h1>
-        </v-row>
+<script lang="ts" setup>
+import type { Database } from '~/supabase/database.types';
+import { useDate } from 'vuetify'
 
-        <v-list v-for="category in categories" :key="category.id" class="mt-8" >
-            <v-list-item class="cursor-pointer">
-                <NuxtLink :to="`/${category.name}`">
-                    {{ category.name }}
-                    <v-tooltip activator="parent" location="end">view articles</v-tooltip>
-                </NuxtLink>
-            </v-list-item>
-        </v-list>    
+const date = useDate()
+const supabase = useSupabaseClient<Database>();
 
-    </v-container>
-</template>
+const loading = ref(false);
+const itemsPerPage = ref(10);
+const serverItems = ref<any[]>([]);
+const totalItems = ref(0);
 
-<script setup>
-import { createClient } from '@supabase/supabase-js'
-const supabase = createClient('https://kibfqgrmblyjxwsvdukn.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtpYmZxZ3JtYmx5anh3c3ZkdWtuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzA5Nzg4NTIsImV4cCI6MjA0NjU1NDg1Mn0.CjV6mHNRhIMSLIs4bpx3imVMfTBCq-KnvrV-HFXYgp8')
-const categories = ref([])
+const headers = [
+    { title: 'ID', key: 'id' },
+    { title: 'Created At', key: 'created_at' },
+    { title: 'Name', key: 'name' },
+    { title: 'Description', key: 'description' },
+    { title: 'Actions', key: 'actions', sortable: false },
+];
 
-const getCategories = async () => {
-  const { data } = await supabase.from('categories').select('*')
-  categories.value = data
+const loadItems = async (args: { page: number, itemsPerPage: number, sortBy: { key: string, order: string }[] }) => {
+    loading.value = true
+    try {
+        let filter: string = 'id';
+        let ascending: boolean = false;
+        const from = args.page === 1 ? 0 : args.page * args.itemsPerPage;
+        const to = from + args.itemsPerPage - 1;
+
+        if (args.sortBy[0] && args.sortBy[0].key) {
+            filter = args.sortBy[0].key;
+            ascending = args.sortBy[0].order !== 'asc';
+        }
+
+        const { data, count, error } = await supabase.from('categories')
+            .select('*', { count: 'exact' })
+            .range(from, to)
+            .order(filter, { ascending })
+
+        if (error) throw error;
+        totalItems.value = count ?? 0;
+        serverItems.value = data as any[];
+        loading.value = false;
+    } catch (error) {
+        console.log(error);
+    }
 }
 
-onMounted(() => {
-  getCategories()
-})
+const editItem = (value: object) => {
+    console.log(value);
+}
 
+const deleteItem = (value: object) => {
+    console.log(value);
+}
 </script>
 
-<style>
-
-</style>
+<template>
+    <div>
+        <v-data-table :height="500" v-model:items-per-page="itemsPerPage" :headers="headers" :items="serverItems"
+            :items-length="totalItems" :loading="loading" item-value="name" @update:options="loadItems">
+            <template v-slot:item.created_at="{ value }">
+                <v-chip color="primary">
+                    {{ date.format(value, 'keyboardDateTime24h') }}
+                </v-chip>
+            </template>
+            <template v-slot:loading>
+                <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
+            </template>
+            <template v-slot:item.actions="{ item }">
+                <v-btn rounded color="secondary" class="me-3" density="comfortable" icon="mdi-eye"
+                    :to="`/tags/${item.id}`"></v-btn>
+                <v-icon color="warning" icon="mdi-pencil" class="me-3" @click="editItem(item)" />
+                <v-icon color="error" icon="mdi-delete" @click="deleteItem(item)" />
+            </template>
+        </v-data-table>
+    </div>
+</template>
