@@ -34,7 +34,7 @@ const links = [
 <template>
   <v-app id="default">
     <v-layout>
-      <v-navigation-drawer permanent persistent v-model="drawer" :rail="rail" width="256">
+      <v-navigation-drawer permanent v-model="drawer" :rail="rail" width="256">
         <template #prepend>
           <v-list-item lines="two">
             <template #prepend>

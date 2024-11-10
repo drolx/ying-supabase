@@ -69,7 +69,7 @@ const deleteItem = (value: object) => {
             </template>
             <template v-slot:item.actions="{ item }">
                 <v-btn rounded color="secondary" class="me-3" density="comfortable" icon="mdi-eye"
-                    :to="`/tags/${item.id}`"></v-btn>
+                    :to="`/categories/${item.id}`"></v-btn>
                 <v-icon color="warning" icon="mdi-pencil" class="me-3" @click="editItem(item)" />
                 <v-icon color="error" icon="mdi-delete" @click="deleteItem(item)" />
             </template>
