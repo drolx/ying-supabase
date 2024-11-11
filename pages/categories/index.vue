@@ -36,46 +36,49 @@ const loadItems = async (args: { page: number, itemsPerPage: number, sortBy: Sor
         if (error) throw error;
         totalItems.value = count ?? 0;
         serverItems.value = data;
+        loading.value = false;
     } catch (error) {
         console.log(error);
-    } finally {
-        loading.value = false;
     }
 }
 
 const refreshData = () => loadItems({ page: itemsPage.value, itemsPerPage: itemsPerPage.value, sortBy: sortBy.value, });
 const createDialog = ref(false);
 const deleteDialog = ref(false);
-const createItemValue = reactive({
+const createItemValue = reactive<{
+    name: string,
+    description: string | null,
+}>({
     name: '',
-    description: '',
+    description: null,
 });
 
 const createItem = async () => {
     try {
-        const { error } = await supabase.from('categories').insert(createItemValue);
+        const { error, data } = await supabase.from('categories').insert(createItemValue).select().single();
         if (error) throw error;
-        createDialog.value = false;
-        refreshData();
+        if (data) {
+            createDialog.value = false;
+            refreshData();
+        }
     } catch (error) {
         console.log(error);
     }
 }
 const deleteItem = async (value: any) => {
-  try {
-    if (value?.id) {
-      const { error, count } = await supabase.from('categories')
-        .delete({ count: 'exact' })
-        .eq('id', value.id)
+    try {
+        if (value?.id) {
+            const { error, count } = await supabase.from('categories')
+                .delete({ count: 'exact' })
+                .eq('id', value.id)
 
-      if (error) throw error;
+            if (error) throw error;
+            refreshData();
+            deleteDialog.value = false;
+        }
+    } catch (error) {
+        console.log(error);
     }
-  } catch (error) {
-
-  } finally {
-    loadItems({ page: itemsPage.value, itemsPerPage: itemsPerPage.value, sortBy: sortBy.value, });
-    deleteDialog.value = false;
-  }
 }
 </script>
 
