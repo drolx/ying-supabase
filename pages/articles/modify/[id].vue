@@ -63,7 +63,7 @@ const modifyItems = async () => {
     if (item.id !== 0) {
       console.log(item)
       const { error } = await supabase.from('articles')
-        .update({ title: item.title, content: item.content, })
+        .update({ title: item.title, content: item.content, published_at: item.published_at, category_id: item.category_id })
         .eq('id', item.id)
       if (error) throw error;
       router.back();
