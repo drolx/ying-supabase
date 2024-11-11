@@ -17,7 +17,7 @@ definePageMeta({
 });
 
 const { loadCategoryItems, loadTagItems } = articleStore;
-const { createItemValue, createItemValueTags, categoryItemState, tagItemState } = storeToRefs(articleStore);
+const { createItemValueTags, categoryItemState, tagItemState } = storeToRefs(articleStore);
 
 const loading = ref(false);
 const item = reactive<{
@@ -74,6 +74,11 @@ const modifyItems = async () => {
     loading.value = false;
   }
 }
+
+onMounted(() => {
+  loadCategoryItems('');
+  loadTagItems('');
+});
 </script>
 
 <template>
@@ -89,15 +94,15 @@ const modifyItems = async () => {
             <v-date-input prepend-icon="" v-model="item.published_at" label="Publish date"></v-date-input>
           </v-col>
           <v-col cols="12">
-            <v-autocomplete @update:menu="() => loadCategoryItems('')" @update:search="loadCategoryItems"
-              v-model="item.category_id" :loading="categoryItemState.loading"
-              :items="categoryItemState.value" label="Categories" hint="Select article category" item-title="name"
-              item-value="id"></v-autocomplete>
+            <v-autocomplete @update:search="loadCategoryItems" v-model="item.category_id"
+              :loading="categoryItemState.loading" :items="categoryItemState.value" label="Categories"
+              hint="Select article category" item-title="name" item-value="id"></v-autocomplete>
           </v-col>
           <v-col clos="12">
-            <v-autocomplete @update:menu="() => loadTagItems('')" @update:search="loadTagItems"
-              v-model="createItemValueTags" :loading="tagItemState.loading" :items="tagItemState.value"
-              hint="Pick article tags" label="Tags" multiple chips item-title="name" item-value="id"></v-autocomplete>
+            <!-- TODO: Resolve Tag storage issues -->
+            <v-autocomplete @update:search="loadTagItems" v-model="createItemValueTags" :loading="tagItemState.loading"
+              :items="tagItemState.value" hint="Pick article tags" label="Tags" multiple chips item-title="name"
+              item-value="id"></v-autocomplete>
           </v-col>
           <v-col cols="12">
             <v-textarea label="Content" v-model="item.content" variant="filled" auto-grow></v-textarea>

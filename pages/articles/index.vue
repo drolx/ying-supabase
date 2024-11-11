@@ -18,6 +18,13 @@ const headers = [
   { title: 'Category', key: 'categories.name' },
   { title: 'Actions', key: 'actions', sortable: false },
 ];
+
+watchEffect(() => {
+  if (createDialog.value) {
+    loadCategoryItems('');
+    loadTagItems('');
+  }
+});
 </script>
 
 <template>
@@ -50,16 +57,15 @@ const headers = [
                       label="Publish date"></v-date-input>
                   </v-col>
                   <v-col cols="12">
-                    <v-autocomplete @update:menu="() => loadCategoryItems('')" @update:search="loadCategoryItems"
-                      v-model="createItemValue.category_id" :loading="categoryItemState.loading"
-                      :items="categoryItemState.value" label="Categories" hint="Select article category"
-                      item-title="name" item-value="id"></v-autocomplete>
+                    <v-autocomplete @update:search="loadCategoryItems" v-model="createItemValue.category_id"
+                      :loading="categoryItemState.loading" :items="categoryItemState.value" label="Categories"
+                      hint="Select article category" item-title="name" item-value="id"></v-autocomplete>
                   </v-col>
                   <v-col clos="12">
-                    <v-autocomplete @update:menu="() => loadTagItems('')" @update:search="loadTagItems"
-                      v-model="createItemValueTags" :loading="tagItemState.loading" :items="tagItemState.value"
-                      hint="Pick article tags" label="Tags" multiple chips item-title="name"
-                      item-value="id"></v-autocomplete>
+                    <!-- TODO: Resolve Tag storage issues -->
+                    <v-autocomplete @update:search="loadTagItems" v-model="createItemValueTags"
+                      :loading="tagItemState.loading" :items="tagItemState.value" hint="Pick article tags" label="Tags"
+                      multiple chips item-title="name" item-value="id"></v-autocomplete>
                   </v-col>
                   <v-col cols="12">
                     <v-textarea label="Content" v-model="createItemValue.content" variant="filled"
