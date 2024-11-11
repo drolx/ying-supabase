@@ -4,7 +4,7 @@ SET session_replication_role = replica;
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 15.1 (Ubuntu 15.1-1.pgdg20.04+1)
+-- Dumped from database version 15.6
 -- Dumped by pg_dump version 15.7 (Ubuntu 15.7-1.pgdg20.04+1)
 
 SET statement_timeout = 0;
@@ -55,7 +55,33 @@ INSERT INTO "auth"."audit_log_entries" ("instance_id", "id", "payload", "created
 	('00000000-0000-0000-0000-000000000000', 'ffe06c03-f7c8-4d8a-92ad-b4bcd69ce7cb', '{"action":"user_signedup","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"team","traits":{"provider":"email"}}', '2024-11-10 15:45:08.685381+00', ''),
 	('00000000-0000-0000-0000-000000000000', 'e828e112-b90c-4c5d-a36b-4e636aad88bb', '{"action":"login","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2024-11-10 15:45:08.689076+00', ''),
 	('00000000-0000-0000-0000-000000000000', '581aa155-25fa-4e32-bd75-fa43df73cc12', '{"action":"logout","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"account"}', '2024-11-10 16:25:30.152418+00', ''),
-	('00000000-0000-0000-0000-000000000000', '05d7a95a-4df1-4daf-be00-e796c6da5486', '{"action":"login","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2024-11-10 16:25:45.284445+00', '');
+	('00000000-0000-0000-0000-000000000000', '05d7a95a-4df1-4daf-be00-e796c6da5486', '{"action":"login","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2024-11-10 16:25:45.284445+00', ''),
+	('00000000-0000-0000-0000-000000000000', '71611f26-9846-498a-ae30-2d2e21239da7', '{"action":"user_signedup","actor_id":"a730ec86-023f-4505-84e5-ea95ed3ea5a7","actor_username":"demo1@drolx.com","actor_via_sso":false,"log_type":"team","traits":{"provider":"email"}}', '2024-11-11 10:00:37.711144+00', ''),
+	('00000000-0000-0000-0000-000000000000', '6a096aa8-e188-45d8-aef8-4760928bc642', '{"action":"login","actor_id":"a730ec86-023f-4505-84e5-ea95ed3ea5a7","actor_username":"demo1@drolx.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2024-11-11 10:00:37.723588+00', ''),
+	('00000000-0000-0000-0000-000000000000', '64080b3d-e17d-4fad-bc30-69fcb235e88e', '{"action":"logout","actor_id":"a730ec86-023f-4505-84e5-ea95ed3ea5a7","actor_username":"demo1@drolx.com","actor_via_sso":false,"log_type":"account"}', '2024-11-11 10:00:58.714409+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'ed8efa93-7405-40d3-a5d8-dc0e8dfde395', '{"action":"login","actor_id":"a730ec86-023f-4505-84e5-ea95ed3ea5a7","actor_username":"demo1@drolx.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2024-11-11 10:01:09.878891+00', ''),
+	('00000000-0000-0000-0000-000000000000', '2a3df2e4-7b51-4d58-b037-ea8d759a63d1', '{"action":"logout","actor_id":"a730ec86-023f-4505-84e5-ea95ed3ea5a7","actor_username":"demo1@drolx.com","actor_via_sso":false,"log_type":"account"}', '2024-11-11 10:22:29.771526+00', ''),
+	('00000000-0000-0000-0000-000000000000', '26667544-3157-4bdb-a302-66aeb6b9cdea', '{"action":"login","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2024-11-11 11:38:36.0999+00', ''),
+	('00000000-0000-0000-0000-000000000000', '6459f726-db82-46a5-b6c8-17638ec25a54', '{"action":"token_refreshed","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"token"}', '2024-11-11 13:26:05.531613+00', ''),
+	('00000000-0000-0000-0000-000000000000', '34fd991a-898c-4d34-9441-336ea2a21107', '{"action":"token_revoked","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"token"}', '2024-11-11 13:26:05.532066+00', ''),
+	('00000000-0000-0000-0000-000000000000', '61183aa9-262e-416d-90b8-23fbb508a208', '{"action":"token_refreshed","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"token"}', '2024-11-11 14:52:22.545723+00', ''),
+	('00000000-0000-0000-0000-000000000000', '7effbce5-7b2d-43ae-8bb9-0ab136e3a41e', '{"action":"token_revoked","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"token"}', '2024-11-11 14:52:22.546616+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'b99e322e-12ad-4879-bddd-93189f131f75', '{"action":"token_refreshed","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"token"}', '2024-11-11 16:09:59.655277+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'b57fecad-350a-43d0-a3f2-2066c1a5fc3e', '{"action":"token_revoked","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"token"}', '2024-11-11 16:09:59.657262+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'b5db8a26-2be2-454f-aa83-7f052885c612', '{"action":"token_refreshed","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"token"}', '2024-11-11 17:08:14.19387+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'eea45c6c-0bcb-4cd0-9e40-6c539ce23548', '{"action":"token_revoked","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"token"}', '2024-11-11 17:08:14.196607+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'a0f2bce7-4828-4bc0-b5f4-aba9d508f2c8', '{"action":"logout","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"account"}', '2024-11-11 17:54:31.475861+00', ''),
+	('00000000-0000-0000-0000-000000000000', '79491715-c2aa-480e-8b77-cde470033735', '{"action":"login","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2024-11-11 17:54:41.402319+00', ''),
+	('00000000-0000-0000-0000-000000000000', '7280ae0f-812a-48bf-abac-7a987bf78a4e', '{"action":"logout","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"account"}', '2024-11-11 18:29:04.820311+00', ''),
+	('00000000-0000-0000-0000-000000000000', '509aa327-0d1b-4fbe-b5bc-936315c75ae4', '{"action":"login","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2024-11-11 18:29:24.797842+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'eef4efff-908d-499e-a39c-e254777fcfdc', '{"action":"token_refreshed","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"token"}', '2024-11-11 20:03:17.43194+00', ''),
+	('00000000-0000-0000-0000-000000000000', '65cc2c70-0599-4434-951b-14fb5e80855d', '{"action":"token_revoked","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"token"}', '2024-11-11 20:03:17.435043+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'cc99e8ee-79fd-4511-b450-6cffff28926e', '{"action":"logout","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"account"}', '2024-11-11 20:05:09.041895+00', ''),
+	('00000000-0000-0000-0000-000000000000', '73dd1f2b-55e0-4a1e-9841-39d0dad9a8ba', '{"action":"user_signedup","actor_id":"2dc57a54-cf1d-4934-8ba8-8782936cab4d","actor_username":"tap@drolx.com","actor_via_sso":false,"log_type":"team","traits":{"provider":"email"}}', '2024-11-11 20:07:47.263887+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'c4e635d6-8df6-422d-b110-53de77880d1f', '{"action":"login","actor_id":"2dc57a54-cf1d-4934-8ba8-8782936cab4d","actor_username":"tap@drolx.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2024-11-11 20:07:47.270154+00', ''),
+	('00000000-0000-0000-0000-000000000000', '5230219c-98a0-44e4-bbb6-aba8518a44b4', '{"action":"logout","actor_id":"2dc57a54-cf1d-4934-8ba8-8782936cab4d","actor_username":"tap@drolx.com","actor_via_sso":false,"log_type":"account"}', '2024-11-11 20:07:55.518782+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'c274102c-fd97-49b8-8cdc-653aef1783d6', '{"action":"login","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2024-11-11 20:09:50.463915+00', ''),
+	('00000000-0000-0000-0000-000000000000', '666ed826-fd9d-4383-8801-7c7f084f89be', '{"action":"logout","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"account"}', '2024-11-11 20:09:52.311439+00', '');
 
 
 --
@@ -69,7 +95,7 @@ INSERT INTO "auth"."audit_log_entries" ("instance_id", "id", "payload", "created
 --
 
 INSERT INTO "auth"."users" ("instance_id", "id", "aud", "role", "email", "encrypted_password", "email_confirmed_at", "invited_at", "confirmation_token", "confirmation_sent_at", "recovery_token", "recovery_sent_at", "email_change_token_new", "email_change", "email_change_sent_at", "last_sign_in_at", "raw_app_meta_data", "raw_user_meta_data", "is_super_admin", "created_at", "updated_at", "phone", "phone_confirmed_at", "phone_change", "phone_change_token", "phone_change_sent_at", "email_change_token_current", "email_change_confirm_status", "banned_until", "reauthentication_token", "reauthentication_sent_at", "is_sso_user", "deleted_at", "is_anonymous") VALUES
-	('00000000-0000-0000-0000-000000000000', 'f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66', 'authenticated', 'authenticated', 'demo@drolx.com', '$2a$10$qAhlH.1F1Sbmu.kT7vdqeuteHLGnE78tNDjrI9k.sDwwVdsLFHD0W', '2024-11-10 15:45:08.68588+00', NULL, '', NULL, '', NULL, '', '', NULL, '2024-11-10 16:25:45.285303+00', '{"provider": "email", "providers": ["email"]}', '{"sub": "f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66", "email": "demo@drolx.com", "customer": false, "lastName": "Demo", "firstName": "Johnny", "email_verified": false, "phone_verified": false}', NULL, '2024-11-10 15:45:08.680648+00', '2024-11-10 16:25:45.287047+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false);
+	('00000000-0000-0000-0000-000000000000', 'f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66', 'authenticated', 'authenticated', 'demo@drolx.com', '$2a$10$qAhlH.1F1Sbmu.kT7vdqeuteHLGnE78tNDjrI9k.sDwwVdsLFHD0W', '2024-11-10 15:45:08.68588+00', NULL, '', NULL, '', NULL, '', '', NULL, '2024-11-11 20:09:50.464416+00', '{"provider": "email", "providers": ["email"]}', '{"sub": "f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66", "email": "demo@drolx.com", "customer": false, "lastName": "Demo", "firstName": "Johnny", "email_verified": false, "phone_verified": false}', NULL, '2024-11-10 15:45:08.680648+00', '2024-11-11 20:09:50.465939+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false);
 
 
 --
@@ -90,16 +116,12 @@ INSERT INTO "auth"."identities" ("provider_id", "user_id", "identity_data", "pro
 -- Data for Name: sessions; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
 --
 
-INSERT INTO "auth"."sessions" ("id", "user_id", "created_at", "updated_at", "factor_id", "aal", "not_after", "refreshed_at", "user_agent", "ip", "tag") VALUES
-	('9d6494c1-803c-471f-bb61-92bb68d28c04', 'f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66', '2024-11-10 16:25:45.285382+00', '2024-11-10 16:25:45.285382+00', NULL, 'aal1', NULL, NULL, 'Mozilla/5.0 (X11; Linux x86_64; rv:132.0) Gecko/20100101 Firefox/132.0', '172.20.0.1', NULL);
 
 
 --
 -- Data for Name: mfa_amr_claims; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
 --
 
-INSERT INTO "auth"."mfa_amr_claims" ("session_id", "created_at", "updated_at", "authentication_method", "id") VALUES
-	('9d6494c1-803c-471f-bb61-92bb68d28c04', '2024-11-10 16:25:45.287433+00', '2024-11-10 16:25:45.287433+00', 'password', '2c2518dd-a690-41b0-9a27-50e222a42a4f');
 
 
 --
@@ -124,8 +146,6 @@ INSERT INTO "auth"."mfa_amr_claims" ("session_id", "created_at", "updated_at", "
 -- Data for Name: refresh_tokens; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
 --
 
-INSERT INTO "auth"."refresh_tokens" ("instance_id", "id", "token", "user_id", "revoked", "created_at", "updated_at", "parent", "session_id") VALUES
-	('00000000-0000-0000-0000-000000000000', 16, '5qhE2L3KOPlkxLXjEDkr3Q', 'f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66', false, '2024-11-10 16:25:45.286115+00', '2024-11-10 16:25:45.286115+00', NULL, '9d6494c1-803c-471f-bb61-92bb68d28c04');
 
 
 --
@@ -162,36 +182,38 @@ INSERT INTO "auth"."refresh_tokens" ("instance_id", "id", "token", "user_id", "r
 -- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO "public"."categories" ("id", "created_at", "name", "description") VALUES
-	(1, '2024-11-10 17:13:27.677029+00', 'category-00', 'category 00 description'),
-	(2, '2024-11-10 17:13:45.027208+00', 'category-01', 'category 01 description');
+INSERT INTO "public"."categories" ("id", "created_at", "name", "description", "updated_at", "deleted_at") VALUES
+	(5, '2024-11-11 20:33:30.078901+00', 'category-00', 'category description 00', NULL, NULL),
+	(6, '2024-11-11 20:33:51.454698+00', 'category-01', 'category description 01', NULL, NULL);
 
 
 --
 -- Data for Name: articles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO "public"."articles" ("id", "created_at", "title", "content", "category_id", "published_at") VALUES
-	(1, '2024-11-10 17:14:18.158021+00', 'article-00', 'article 00 content', 1, NULL),
-	(2, '2024-11-10 17:14:41.227076+00', 'article-01', 'article 00 content', 2, NULL);
+INSERT INTO "public"."articles" ("id", "created_at", "title", "content", "category_id", "published_at", "updated_at", "deleted_at") VALUES
+	(6, '2024-11-11 20:34:32.579809+00', 'article-title-00', 'article content 00', 5, NULL, NULL, NULL),
+	(7, '2024-11-11 20:35:06.274657+00', 'article-title-01', 'articl content 01', 6, NULL, NULL, NULL);
 
 
 --
 -- Data for Name: tags; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO "public"."tags" ("id", "created_at", "name") VALUES
-	(1, '2024-11-10 17:12:48.617661+00', 'tag-00'),
-	(2, '2024-11-10 17:12:58.938595+00', 'tag-01');
+INSERT INTO "public"."tags" ("id", "created_at", "name", "updated_at", "deleted_at") VALUES
+	(1, '2024-11-11 20:32:44.348037+00', 'tag-00', NULL, NULL),
+	(2, '2024-11-11 20:32:51.682158+00', 'tag-01', NULL, NULL);
 
 
 --
--- Data for Name: article_tags; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: aritcle_tags; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO "public"."article_tags" ("article_id", "tag_id") VALUES
-	(1, 1),
-	(2, 2);
+INSERT INTO "public"."aritcle_tags" ("id", "created_at", "article_id", "tag_id") VALUES
+	(1, '2024-11-11 20:35:32.900127+00', 6, 1),
+	(2, '2024-11-11 20:35:48.252236+00', 6, 2),
+	(3, '2024-11-11 20:36:19.332328+00', 7, 1),
+	(4, '2024-11-11 20:36:30.367385+00', 7, 2);
 
 
 --
@@ -234,7 +256,7 @@ INSERT INTO "public"."article_tags" ("article_id", "tag_id") VALUES
 -- Name: refresh_tokens_id_seq; Type: SEQUENCE SET; Schema: auth; Owner: supabase_auth_admin
 --
 
-SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 16, true);
+SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 28, true);
 
 
 --
@@ -245,17 +267,24 @@ SELECT pg_catalog.setval('"pgsodium"."key_key_id_seq"', 1, false);
 
 
 --
+-- Name: aritcle_tags_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"public"."aritcle_tags_id_seq"', 4, true);
+
+
+--
 -- Name: articles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."articles_id_seq"', 2, true);
+SELECT pg_catalog.setval('"public"."articles_id_seq"', 7, true);
 
 
 --
 -- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."categories_id_seq"', 2, true);
+SELECT pg_catalog.setval('"public"."categories_id_seq"', 6, true);
 
 
 --
