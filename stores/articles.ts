@@ -57,7 +57,7 @@ export const useArticles = defineStore('articles', () => {
                     { count: 'exact' })
                 .range(from, to)
                 .order(filter, { ascending })
-                .like('title', `%${search.value}%`)
+                .ilike('title', `%${search.value}%`)
 
             const { data, count, error } = await aritclesWithCategoriesQuery;
             if (error) throw error;
@@ -78,7 +78,7 @@ export const useArticles = defineStore('articles', () => {
         try {
             const { data, error } = await supabase.from('categories')
                 .select('*', { count: 'exact' })
-                .like('name', `%${search}%`)
+                .ilike('name', `%${search}%`)
                 .range(0, 9);
             if (error) throw error;
             categoryItemState.value = data as CategoryItem[];
@@ -93,7 +93,7 @@ export const useArticles = defineStore('articles', () => {
         try {
             const { data, error } = await supabase.from('tags')
                 .select('*', { count: 'exact' })
-                .like('name', `%${search}%`)
+                .ilike('name', `%${search}%`)
                 .range(0, 9);
             if (error) throw error;
             tagItemState.value = data as TagItem[];

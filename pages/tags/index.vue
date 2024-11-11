@@ -32,7 +32,7 @@ const loadItems = async (args: { page: number, itemsPerPage: number, sortBy: Sor
       // .is('deleted_at', null)
       .range(from, to)
       .order(filter, { ascending })
-      .like('name', `%${search.value}%`)
+      .ilike('name', `%${search.value}%`)
 
     if (error) throw error;
     totalItems.value = count ?? 0;
