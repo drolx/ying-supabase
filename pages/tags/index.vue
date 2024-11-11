@@ -36,7 +36,7 @@ const loadItems = async (args: { page: number, itemsPerPage: number, sortBy: Sor
 
     if (error) throw error;
     totalItems.value = count ?? 0;
-    serverItems.value = data as any[];
+    serverItems.value = data;
   } catch (error) {
     console.log(error);
   } finally {
@@ -68,7 +68,6 @@ const deleteItem = async (value: any) => {
         .eq('id', value.id)
 
       if (error) throw error;
-      if(count && count > 0) console.log(count)
     }
   } catch (error) {
 

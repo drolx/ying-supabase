@@ -1,43 +1,107 @@
-<template>
-    <div class="ma-12 flex justify-center">
-        <h1 class="">ARTICLE</h1>
-        <h2 class="mt-6">{{ article.title }}</h2>
-        <p class="">{{ article.content }}</p>
+<script setup lang="ts">
+import { computedAsync } from '@vueuse/core';
+import type { Database } from '~/supabase/database.types';
+import { useDate } from 'vuetify'
 
-        <v-row v-for="tag in tags" :key="tag.tag_id" class="d-flex justify-center" align="center" justify="center">
-            <ul class="d-inline">
-                <li class="text-subtitle-2">{{ tag.tag_id === 1 ? 'AI' : tag.tag_id === 2 ? 'WELLNESS' : 'TRAVEL' }}</li>
-            </ul>
-        </v-row>
-    </div>
-</template>
-
-<script setup>
+const date = useDate();
 const route = useRoute();
-const articleId = route.params.id;
+const router = useRouter();
+const supabase = useSupabaseClient<Database>();
 
-import { createClient } from '@supabase/supabase-js'
-const supabase = createClient('https://kibfqgrmblyjxwsvdukn.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtpYmZxZ3JtYmx5anh3c3ZkdWtuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzA5Nzg4NTIsImV4cCI6MjA0NjU1NDg1Mn0.CjV6mHNRhIMSLIs4bpx3imVMfTBCq-KnvrV-HFXYgp8')
-const article = ref({});
-const tags = ref([]);
-
-const getArticle = async () => {
-    const { data } = await supabase.from('articles').select('*').eq('article_id', articleId).single()
-    article.value = data
+definePageMeta({
+    validate: async (route
+    ) => {
+        return typeof route.params.id === 'string' && /^\d+$/.test(route.params.id)
     }
-const getArticleTags = async () => {
-    const { data } = await supabase.from('article_tag').select('*').eq('article_id', articleId)
-    tags.value = data
+});
+
+const loading = ref(false);
+const item = computedAsync(async () => {
+    loading.value = true
+    try {
+        if (route.params.id) {
+            const aritclesWithCategoriesQuery = supabase.from('articles')
+                .select(`
+                    *,
+                    categories (
+                        id,
+                        name
+                    ),
+                    article_tags (
+                        tags (
+                            name
+                        )
+                    )
+                    `,
+                    { count: 'exact' })
+                .eq('id', route.params.id)
+                .single()
+            const { data, error } = await aritclesWithCategoriesQuery;
+
+            if (error) throw error;
+            console.log(data);
+            loading.value = false;
+            return data;
+        }
+    } catch (error) {
+        console.log(error);
     }
 
-onMounted(() => {
-    getArticle()
-    getArticleTags()
+    return null;
 })
-
-
 </script>
 
-<style>
-
-</style>
+<template>
+    <div class="h-100 w-100 pt-8 d-flex align-center justify-center">
+        <v-progress-circular v-if="!item" :size="120" :width="5" color="purple" indeterminate></v-progress-circular>
+        <v-card v-else class="mx-auto" min-width="500" max-width="600" border flat>
+            <v-list-item class="px-6" height="88">
+                <template v-slot:prepend>
+                    <v-btn @click="() => router.back()" color="primary" icon="mdi-arrow-left" text="Back" variant="text"
+                        slim></v-btn>
+                </template>
+                <template v-slot:title>
+                    <span class="text-bold text-h5 text-secondary">{{ `Articles Details` }}</span>
+                </template>
+            </v-list-item>
+            <v-divider></v-divider>
+            <v-card-text class="text-medium-emphasis pa-6">
+                <v-row>
+                    <v-col cols="12" class="d-flex justify-start align-center gap-8">
+                        <v-chip rounded color="primary" class="text-bold text-accent">{{ 'ID:' }}</v-chip>
+                        <span>{{ item.id }}</span>
+                    </v-col>
+                    <v-col cols="12" class="d-flex justify-start align-center gap-8">
+                        <v-chip rounded class="text-bold">{{ 'Created At:' }}</v-chip>
+                        <span>{{ date.format(item.created_at, 'keyboardDateTime24h') }}</span>
+                    </v-col>
+                    <v-col cols="12" class="d-flex justify-start align-center gap-8">
+                        <v-chip rounded class="text-bold">{{ 'Published At:' }}</v-chip>
+                        <span>{{ date.format(item.published_at, 'keyboardDateTime24h') }}</span>
+                    </v-col>
+                    <v-divider></v-divider>
+                    <v-col cols="12" class="d-flex justify-start align-center gap-8">
+                        <v-chip rounded class="text-bold">{{ 'Title:' }}</v-chip>
+                        <span>{{ item.title }}</span>
+                    </v-col>
+                    <v-divider></v-divider>
+                    <v-col cols="12" class="d-flex justify-start align-center gap-8">
+                        <v-chip rounded class="text-bold">{{ 'Category:' }}</v-chip>
+                        <span>{{ item.categories?.name }}</span>
+                    </v-col>
+                    <v-divider></v-divider>
+                    <v-col cols="12" class="mt-5 d-flex justify-start align-center gap-8">
+                        <v-row>
+                            <v-col cols="12" class="text-h4 font-bold text-accent">{{ 'Description' }}</v-col>
+                            <v-col cols="12">
+                                <summary class="pa-2">
+                                    {{ item.content }}
+                                </summary>
+                            </v-col>
+                        </v-row>
+                    </v-col>
+                </v-row>
+            </v-card-text>
+        </v-card>
+    </div>
+</template>

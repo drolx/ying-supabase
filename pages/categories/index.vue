@@ -35,7 +35,7 @@ const loadItems = async (args: { page: number, itemsPerPage: number, sortBy: Sor
 
         if (error) throw error;
         totalItems.value = count ?? 0;
-        serverItems.value = data as any[];
+        serverItems.value = data;
     } catch (error) {
         console.log(error);
     } finally {
@@ -69,7 +69,6 @@ const deleteItem = async (value: any) => {
         .eq('id', value.id)
 
       if (error) throw error;
-      if(count && count > 0) console.log(count)
     }
   } catch (error) {
 
@@ -83,7 +82,7 @@ const deleteItem = async (value: any) => {
 <template>
     <v-card flat>
         <v-card-title class="d-flex align-center pe-2">
-            <v-icon class="me-4" icon="mdi-tag-multiple"></v-icon>
+            <v-icon class="me-4" icon="mdi-group"></v-icon>
             <span>{{ 'Categories' }}</span>
             <v-spacer></v-spacer>
             <v-btn variant="plain" color="accent" size="md" class="me-3" :disabled="loading" append-icon="mdi-refresh"
