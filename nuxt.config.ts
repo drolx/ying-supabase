@@ -21,10 +21,14 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     '@vueuse/nuxt',
+    '@pinia/nuxt',
     '@nuxtjs/supabase',
     'vuetify-nuxt-module',
     '@unocss/nuxt',
   ],
+  // alias: {
+  //   pinia: "/node_modules/@pinia/nuxt/node_modules/pinia/dist/pinia.mjs"
+  // },
   runtimeConfig: {
     public: {  
       SUPABASE_URL: process.env.SUPABASE_URL,
