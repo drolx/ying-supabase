@@ -81,7 +81,10 @@ INSERT INTO "auth"."audit_log_entries" ("instance_id", "id", "payload", "created
 	('00000000-0000-0000-0000-000000000000', 'c4e635d6-8df6-422d-b110-53de77880d1f', '{"action":"login","actor_id":"2dc57a54-cf1d-4934-8ba8-8782936cab4d","actor_username":"tap@drolx.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2024-11-11 20:07:47.270154+00', ''),
 	('00000000-0000-0000-0000-000000000000', '5230219c-98a0-44e4-bbb6-aba8518a44b4', '{"action":"logout","actor_id":"2dc57a54-cf1d-4934-8ba8-8782936cab4d","actor_username":"tap@drolx.com","actor_via_sso":false,"log_type":"account"}', '2024-11-11 20:07:55.518782+00', ''),
 	('00000000-0000-0000-0000-000000000000', 'c274102c-fd97-49b8-8cdc-653aef1783d6', '{"action":"login","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2024-11-11 20:09:50.463915+00', ''),
-	('00000000-0000-0000-0000-000000000000', '666ed826-fd9d-4383-8801-7c7f084f89be', '{"action":"logout","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"account"}', '2024-11-11 20:09:52.311439+00', '');
+	('00000000-0000-0000-0000-000000000000', '666ed826-fd9d-4383-8801-7c7f084f89be', '{"action":"logout","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"account"}', '2024-11-11 20:09:52.311439+00', ''),
+	('00000000-0000-0000-0000-000000000000', '201ac7c2-5394-4774-94ed-58c1fa1c4705', '{"action":"login","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2024-11-11 20:46:42.704481+00', ''),
+	('00000000-0000-0000-0000-000000000000', '7fc478ef-4c5d-4969-9507-1c52716e1974', '{"action":"logout","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"account"}', '2024-11-11 21:22:57.056692+00', ''),
+	('00000000-0000-0000-0000-000000000000', '2dd29f1f-2392-47ac-8601-c9e85ebcfb3b', '{"action":"login","actor_id":"f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66","actor_username":"demo@drolx.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2024-11-11 21:23:09.869438+00', '');
 
 
 --
@@ -95,7 +98,7 @@ INSERT INTO "auth"."audit_log_entries" ("instance_id", "id", "payload", "created
 --
 
 INSERT INTO "auth"."users" ("instance_id", "id", "aud", "role", "email", "encrypted_password", "email_confirmed_at", "invited_at", "confirmation_token", "confirmation_sent_at", "recovery_token", "recovery_sent_at", "email_change_token_new", "email_change", "email_change_sent_at", "last_sign_in_at", "raw_app_meta_data", "raw_user_meta_data", "is_super_admin", "created_at", "updated_at", "phone", "phone_confirmed_at", "phone_change", "phone_change_token", "phone_change_sent_at", "email_change_token_current", "email_change_confirm_status", "banned_until", "reauthentication_token", "reauthentication_sent_at", "is_sso_user", "deleted_at", "is_anonymous") VALUES
-	('00000000-0000-0000-0000-000000000000', 'f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66', 'authenticated', 'authenticated', 'demo@drolx.com', '$2a$10$qAhlH.1F1Sbmu.kT7vdqeuteHLGnE78tNDjrI9k.sDwwVdsLFHD0W', '2024-11-10 15:45:08.68588+00', NULL, '', NULL, '', NULL, '', '', NULL, '2024-11-11 20:09:50.464416+00', '{"provider": "email", "providers": ["email"]}', '{"sub": "f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66", "email": "demo@drolx.com", "customer": false, "lastName": "Demo", "firstName": "Johnny", "email_verified": false, "phone_verified": false}', NULL, '2024-11-10 15:45:08.680648+00', '2024-11-11 20:09:50.465939+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false);
+	('00000000-0000-0000-0000-000000000000', 'f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66', 'authenticated', 'authenticated', 'demo@drolx.com', '$2a$10$qAhlH.1F1Sbmu.kT7vdqeuteHLGnE78tNDjrI9k.sDwwVdsLFHD0W', '2024-11-10 15:45:08.68588+00', NULL, '', NULL, '', NULL, '', '', NULL, '2024-11-11 21:23:09.870358+00', '{"provider": "email", "providers": ["email"]}', '{"sub": "f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66", "email": "demo@drolx.com", "customer": false, "lastName": "Demo", "firstName": "Johnny", "email_verified": false, "phone_verified": false}', NULL, '2024-11-10 15:45:08.680648+00', '2024-11-11 21:23:09.873101+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false);
 
 
 --
@@ -116,12 +119,16 @@ INSERT INTO "auth"."identities" ("provider_id", "user_id", "identity_data", "pro
 -- Data for Name: sessions; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
 --
 
+INSERT INTO "auth"."sessions" ("id", "user_id", "created_at", "updated_at", "factor_id", "aal", "not_after", "refreshed_at", "user_agent", "ip", "tag") VALUES
+	('928d6b60-204e-4787-b668-39d73dd1b4d6', 'f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66', '2024-11-11 21:23:09.870475+00', '2024-11-11 21:23:09.870475+00', NULL, 'aal1', NULL, NULL, 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0', '172.20.0.1', NULL);
 
 
 --
 -- Data for Name: mfa_amr_claims; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
 --
 
+INSERT INTO "auth"."mfa_amr_claims" ("session_id", "created_at", "updated_at", "authentication_method", "id") VALUES
+	('928d6b60-204e-4787-b668-39d73dd1b4d6', '2024-11-11 21:23:09.873679+00', '2024-11-11 21:23:09.873679+00', 'password', 'c50ad53c-84ac-4e68-b103-9d4ab10f2966');
 
 
 --
@@ -146,6 +153,8 @@ INSERT INTO "auth"."identities" ("provider_id", "user_id", "identity_data", "pro
 -- Data for Name: refresh_tokens; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
 --
 
+INSERT INTO "auth"."refresh_tokens" ("instance_id", "id", "token", "user_id", "revoked", "created_at", "updated_at", "parent", "session_id") VALUES
+	('00000000-0000-0000-0000-000000000000', 30, '0MQNcC-wU29p5t15OFfM-Q', 'f9ae3c91-4ea3-4d0c-8ab4-1a2b0c82be66', false, '2024-11-11 21:23:09.871749+00', '2024-11-11 21:23:09.871749+00', NULL, '928d6b60-204e-4787-b668-39d73dd1b4d6');
 
 
 --
@@ -206,10 +215,10 @@ INSERT INTO "public"."tags" ("id", "created_at", "name", "updated_at", "deleted_
 
 
 --
--- Data for Name: aritcle_tags; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: article_tags; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO "public"."aritcle_tags" ("id", "created_at", "article_id", "tag_id") VALUES
+INSERT INTO "public"."article_tags" ("id", "created_at", "article_id", "tag_id") VALUES
 	(1, '2024-11-11 20:35:32.900127+00', 6, 1),
 	(2, '2024-11-11 20:35:48.252236+00', 6, 2),
 	(3, '2024-11-11 20:36:19.332328+00', 7, 1),
@@ -256,7 +265,7 @@ INSERT INTO "public"."aritcle_tags" ("id", "created_at", "article_id", "tag_id")
 -- Name: refresh_tokens_id_seq; Type: SEQUENCE SET; Schema: auth; Owner: supabase_auth_admin
 --
 
-SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 28, true);
+SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 30, true);
 
 
 --

@@ -12,26 +12,32 @@ export type Database = {
       article_tags: {
         Row: {
           article_id: number | null
+          created_at: string
+          id: number
           tag_id: number | null
         }
         Insert: {
           article_id?: number | null
+          created_at?: string
+          id?: number
           tag_id?: number | null
         }
         Update: {
           article_id?: number | null
+          created_at?: string
+          id?: number
           tag_id?: number | null
         }
         Relationships: [
           {
-            foreignKeyName: "article_tags_article_id_fkey"
+            foreignKeyName: "aritcle_tags_article_id_fkey"
             columns: ["article_id"]
             isOneToOne: false
             referencedRelation: "articles"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "article_tags_tag_id_fkey"
+            foreignKeyName: "aritcle_tags_tag_id_fkey"
             columns: ["tag_id"]
             isOneToOne: false
             referencedRelation: "tags"
@@ -44,25 +50,31 @@ export type Database = {
           category_id: number | null
           content: string | null
           created_at: string
+          deleted_at: string | null
           id: number
           published_at: string | null
           title: string | null
+          updated_at: string | null
         }
         Insert: {
           category_id?: number | null
           content?: string | null
           created_at?: string
+          deleted_at?: string | null
           id?: number
           published_at?: string | null
           title?: string | null
+          updated_at?: string | null
         }
         Update: {
           category_id?: number | null
           content?: string | null
           created_at?: string
+          deleted_at?: string | null
           id?: number
           published_at?: string | null
           title?: string | null
+          updated_at?: string | null
         }
         Relationships: [
           {
@@ -77,39 +89,51 @@ export type Database = {
       categories: {
         Row: {
           created_at: string
+          deleted_at: string | null
           description: string | null
           id: number
           name: string
+          updated_at: string | null
         }
         Insert: {
           created_at?: string
+          deleted_at?: string | null
           description?: string | null
           id?: number
           name: string
+          updated_at?: string | null
         }
         Update: {
           created_at?: string
+          deleted_at?: string | null
           description?: string | null
           id?: number
           name?: string
+          updated_at?: string | null
         }
         Relationships: []
       }
       tags: {
         Row: {
-          created_at: string | null
+          created_at: string
+          deleted_at: string | null
           id: number
-          name: string
+          name: string | null
+          updated_at: string | null
         }
         Insert: {
-          created_at?: string | null
+          created_at?: string
+          deleted_at?: string | null
           id?: number
-          name: string
+          name?: string | null
+          updated_at?: string | null
         }
         Update: {
-          created_at?: string | null
+          created_at?: string
+          deleted_at?: string | null
           id?: number
-          name?: string
+          name?: string | null
+          updated_at?: string | null
         }
         Relationships: []
       }
@@ -121,7 +145,14 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      profile_type:
+        | "admin"
+        | "clerk_logistics"
+        | "clerk_transport"
+        | "support"
+        | "tracker"
+        | "finance"
+        | "super_admin"
     }
     CompositeTypes: {
       [_ in never]: never
