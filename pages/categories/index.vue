@@ -1,11 +1,9 @@
 <script lang="ts" setup>
 import type { Database } from '~/supabase/database.types';
 import { useDate } from 'vuetify'
+import type { SortItem } from '~/types/shared';
+import { getPagingFilter } from '~/util/shared';
 
-type SortItem = {
-    key: string;
-    order?: boolean | 'asc' | 'desc';
-};
 const date = useDate()
 const supabase = useSupabaseClient<Database>();
 
@@ -28,16 +26,7 @@ const headers = [
 const loadItems = async (args: { page: number, itemsPerPage: number, sortBy: SortItem[] }) => {
     loading.value = true
     try {
-        let filter: string = 'id';
-        let ascending: boolean = false;
-        const from = args.page === 1 ? 0 : args.page * args.itemsPerPage;
-        const to = from + args.itemsPerPage - 1;
-
-        if (args.sortBy[0] && args.sortBy[0].key) {
-            filter = args.sortBy[0].key;
-            ascending = args.sortBy[0].order !== 'asc';
-        }
-
+        const { from, to, ascending, filter } = getPagingFilter(args);
         const { data, count, error } = await supabase.from('categories')
             .select('*', { count: 'exact' })
             .range(from, to)
