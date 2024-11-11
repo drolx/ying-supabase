@@ -29,6 +29,7 @@ const item = computedAsync(async () => {
                     ),
                     article_tags (
                         tags (
+                            id,
                             name
                         )
                     )
@@ -40,6 +41,7 @@ const item = computedAsync(async () => {
 
             if (error) throw error;
             loading.value = false;
+            console.log(data);
             return data;
         }
     } catch (error) {
@@ -87,6 +89,12 @@ const item = computedAsync(async () => {
                     <v-col cols="12" class="d-flex justify-start align-center gap-8">
                         <v-chip rounded class="text-bold">{{ 'Category:' }}</v-chip>
                         <span>{{ item.categories?.name }}</span>
+                    </v-col>
+                    <v-col cols="12" class="d-flex justify-start align-center gap-8">
+                        <v-chip rounded class="text-bold">{{ 'Tags:' }}</v-chip>
+                        <v-row cols="12" no-gutters>
+                            <v-chip v-for="tags in item.article_tags" rounded class="text-xs text-accent">{{ tags.tags?.name }}</v-chip>
+                        </v-row>
                     </v-col>
                     <v-divider></v-divider>
                     <v-col cols="12" class="mt-5 d-flex justify-start align-center gap-8">

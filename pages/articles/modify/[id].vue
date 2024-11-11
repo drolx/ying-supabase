@@ -61,10 +61,21 @@ const modifyItems = async () => {
   try {
     if (item.id !== 0) {
       console.log(item)
-      const { error } = await supabase.from('articles')
+      const { data, error } = await supabase.from('articles')
         .update({ title: item.title, content: item.content, published_at: item.published_at, category_id: item.category_id })
         .eq('id', item.id)
+        .select()
+        .single();
       if (error) throw error;
+
+      if (data.id && createItemValueTags.value.length > 0) {
+        const commitTags = createItemValueTags.value.map(x => {
+          return { article_id: data.id, tag_id: x };
+        });
+        await supabase.from('article_tags')
+          .insert(commitTags);
+      }
+
       loading.value = false;
       router.back();
     }

@@ -25,7 +25,7 @@ export const useArticles = defineStore('articles', () => {
         category_id: null,
         published_at: null,
     });
-    const createItemValueTags = ref();
+    const createItemValueTags = ref<number[]>([]);
     const categoryItemState = reactive<{
         value: CategoryItem[],
         loading: boolean,
@@ -50,9 +50,13 @@ export const useArticles = defineStore('articles', () => {
                 .select(`
                   *,
                   categories (
-                      id,
                       name
-                  )
+                  ),
+                  article_tags (
+                    tags (
+                        name
+                    )
+                   )
                   `,
                     { count: 'exact' })
                 .range(from, to)
@@ -104,9 +108,18 @@ export const useArticles = defineStore('articles', () => {
 
     const createItem = async () => {
         try {
-            const { error, data } = await supabase.from('articles').insert(createItemValue).select().single();
+            const { error, data } = await supabase.from('articles')
+                .insert(createItemValue)
+                .select().single();
             if (error) throw error;
-            console.log(data);
+
+            if (data.id && createItemValueTags.value.length > 0) {
+                const commitTags = createItemValueTags.value.map(x => {
+                    return { article_id: data.id, tag_id: x };
+                });
+                await supabase.from('article_tags')
+                    .insert(commitTags);
+            }
             createDialog.value = false;
             refreshData();
         } catch (error) {

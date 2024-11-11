@@ -16,6 +16,7 @@ const headers = [
   { title: 'Title', key: 'title' },
   { title: 'Published At', key: 'published_at' },
   { title: 'Category', key: 'categories.name' },
+  // { title: 'Tags', key: 'article_tags' },
   { title: 'Actions', key: 'actions', sortable: false },
 ];
 
@@ -93,6 +94,9 @@ watchEffect(() => {
           {{ date.format(value, 'keyboardDateTime24h') }}
         </v-chip>
       </template>
+      <!-- <template v-slot:item.article_tags="{ value }">
+        <span v-for="tags in value" rounded class="text-xs text-accent">{{ `${tags.tags?.name}, ` }}</span>
+      </template> -->
       <template v-slot:loading>
         <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
       </template>
