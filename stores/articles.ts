@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia';
+import { defineStore, skipHydrate } from 'pinia';
 import { ref } from 'vue';
 import type { Database } from '~/supabase/database.types';
 import type { CategoryItem, SortItem, TagItem } from '~/types/shared';
@@ -130,19 +130,19 @@ export const useArticles = defineStore('articles', () => {
     }
 
     return {
-        loading,
-        search,
-        itemsPage,
-        itemsPerPage,
-        serverItems,
-        totalItems,
-        sortBy,
+        loading: skipHydrate(loading),
+        search: skipHydrate(search),
+        itemsPage: skipHydrate(itemsPage),
+        itemsPerPage: skipHydrate(itemsPerPage),
+        serverItems: skipHydrate(serverItems),
+        totalItems: skipHydrate(totalItems),
+        sortBy: skipHydrate(sortBy),
+        createDialog,
+        deleteDialog,
         createItemValue,
         createItemValueTags,
         categoryItemState,
         tagItemState,
-        createDialog,
-        deleteDialog,
         loadItems,
         refreshData,
         loadCategoryItems,

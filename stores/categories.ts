@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import { defineStore, skipHydrate } from 'pinia'
 import type { Database } from '~/supabase/database.types';
 import type { SortItem } from '~/types/shared';
 import { getPagingFilter } from '~/util/shared';
@@ -74,13 +74,13 @@ export const useCategories = defineStore('categories', () => {
 
 
   return {
-    loading,
-    search,
-    itemsPage,
-    itemsPerPage,
-    serverItems,
-    totalItems,
-    sortBy,
+    loading: skipHydrate(loading),
+    search: skipHydrate(search),
+    itemsPage: skipHydrate(itemsPage),
+    itemsPerPage: skipHydrate(itemsPerPage),
+    serverItems: skipHydrate(serverItems),
+    totalItems: skipHydrate(totalItems),
+    sortBy: skipHydrate(sortBy),
     createDialog,
     deleteDialog,
     createItemValue,
