@@ -39,7 +39,6 @@ const item = computedAsync(async () => {
             const { data, error } = await aritclesWithCategoriesQuery;
 
             if (error) throw error;
-            console.log(data);
             loading.value = false;
             return data;
         }

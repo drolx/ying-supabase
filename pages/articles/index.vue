@@ -1,20 +1,14 @@
 <script lang="ts" setup>
-import type { Database } from '~/supabase/database.types';
+import { storeToRefs } from 'pinia';
 import { useDate } from 'vuetify';
 import { VDateInput } from 'vuetify/labs/VDateInput';
-import type { SortItem } from '~/types/shared';
-import { getPagingFilter } from '~/util/shared';
+import { useArticles } from '~/stores/articles';
 
-const date = useDate()
-const supabase = useSupabaseClient<Database>();
+const date = useDate();
+const articleStore = useArticles();
 
-const loading = ref(false);
-const search = ref('');
-const itemsPage = ref(1);
-const itemsPerPage = ref(10);
-const serverItems = ref<any[]>([]);
-const totalItems = ref(0);
-const sortBy = ref<SortItem[]>([])
+const { loadItems, refreshData, loadCategoryItems, loadTagItems, createItem, deleteItem } = articleStore;
+const { loading, sortBy, search, itemsPage, itemsPerPage, serverItems, totalItems, createItemValue, createItemValueTags, categoryItemState, tagItemState, createDialog, deleteDialog, } = storeToRefs(articleStore);
 
 const headers = [
   { title: 'ID', key: 'id' },
@@ -24,132 +18,6 @@ const headers = [
   { title: 'Category', key: 'categories.name' },
   { title: 'Actions', key: 'actions', sortable: false },
 ];
-
-const loadItems = async (args: { page: number, itemsPerPage: number, sortBy: SortItem[] }) => {
-  loading.value = true
-  try {
-    const { from, to, ascending, filter } = getPagingFilter(args);
-
-    const aritclesWithCategoriesQuery = supabase.from('articles')
-      .select(`
-            *,
-            categories (
-                id,
-                name
-            )
-            `,
-        { count: 'exact' })
-      .range(from, to)
-      .order(filter, { ascending })
-      .like('title', `%${search.value}%`)
-
-    const { data, count, error } = await aritclesWithCategoriesQuery;
-    if (error) throw error;
-
-    totalItems.value = count ?? 0;
-    serverItems.value = data;
-  } catch (error) {
-    console.log(error);
-  } finally {
-    loading.value = false;
-  }
-}
-
-const refreshData = () => loadItems({ page: itemsPage.value, itemsPerPage: itemsPerPage.value, sortBy: sortBy.value, });
-const createDialog = ref(false);
-const deleteDialog = ref(false);
-const createItemValue = reactive({
-  title: '',
-  content: '',
-  category_id: null,
-  published_at: null,
-});
-const createItemValueTags = ref();
-
-/** Selction items */
-type CategoryItem = {
-  created_at: string;
-  description: string | null;
-  id: number;
-  name: string;
-}
-type TagItem = {
-  created_at: string;
-  id: number;
-  name: string;
-}
-const categoryItemState = reactive<{
-  value: CategoryItem[],
-  loading: boolean,
-}>({
-  value: [],
-  loading: false,
-});
-const tagItemState = reactive<{
-  value: TagItem[],
-  loading: boolean,
-}>({
-  value: [],
-  loading: false,
-});
-
-const createItem = async () => {
-  try {
-    const { error, data } = await supabase.from('articles').insert(createItemValue).single();
-    if (error) throw error;
-    createDialog.value = false;
-    console.log(createItemValueTags.value);
-    console.log(data);
-    refreshData();
-  } catch (error) {
-    console.log(error);
-  }
-}
-const deleteItem = async (value: any) => {
-  try {
-    if (value?.id) {
-      const { error } = await supabase.from('articles')
-        .delete({ count: 'exact' })
-        .eq('id', value.id);
-      if (error) throw error;
-    }
-  } catch (error) {
-
-  } finally {
-    loadItems({ page: itemsPage.value, itemsPerPage: itemsPerPage.value, sortBy: sortBy.value, });
-    deleteDialog.value = false;
-  }
-}
-
-const loadCategoryItems = async (search: string = '') => {
-  categoryItemState.loading = true;
-  try {
-    const { data, error } = await supabase.from('categories')
-      .select('*', { count: 'exact' })
-      .like('name', `%${search}%`)
-      .range(0, 9);
-    if (error) throw error;
-    categoryItemState.value = data as CategoryItem[];
-    categoryItemState.loading = false;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-const loadTagItems = async (search: string = '') => {
-  tagItemState.loading = true;
-  try {
-    const { data, error } = await supabase.from('tags')
-      .select('*', { count: 'exact' })
-      .like('name', `%${search}%`)
-      .range(0, 9);
-    if (error) throw error;
-    tagItemState.value = data as TagItem[];
-    tagItemState.loading = false;
-  } catch (error) {
-    console.log(error);
-  }
-}
 </script>
 
 <template>
@@ -234,8 +102,8 @@ const loadTagItems = async (search: string = '') => {
             <v-icon v-bind="activatorProps" color="error" icon="mdi-delete" />
           </template>
           <template v-slot:default="{ isActive }">
-            <v-card prepend-icon="mdi-variable" :title="`Article - ${item.name}`"
-              :text="`Confirm you're deleting ${item.name}`">
+            <v-card prepend-icon="mdi-variable" :title="`Article - ${item.title}`"
+              :text="`Confirm you're deleting ${item.title}`">
               <template v-slot:actions>
                 <v-btn color="primary" class="ml-auto" text="Cancel" @click="isActive.value = false"></v-btn>
                 <v-spacer></v-spacer>
