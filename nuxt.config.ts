@@ -26,9 +26,6 @@ export default defineNuxtConfig({
     'vuetify-nuxt-module',
     '@unocss/nuxt',
   ],
-  // alias: {
-  //   pinia: "/node_modules/@pinia/nuxt/node_modules/pinia/dist/pinia.mjs"
-  // },
   runtimeConfig: {
     public: {  
       SUPABASE_URL: process.env.SUPABASE_URL,
