@@ -30,11 +30,10 @@ onBeforeMount(async () => {
 
       item.name = data.name;
       item.id = data.id;
+      loading.value = false;
     }
   } catch (error) {
     console.log(error);
-  } finally {
-    loading.value = false;
   }
 })
 
@@ -47,12 +46,11 @@ const modifyItems = async () => {
         .update({ name: item.name })
         .eq('id', item.id)
       if (error) throw error;
+      loading.value = false;
       router.back();
     }
   } catch (error) {
     console.log(error);
-  } finally {
-    loading.value = false;
   }
 }
 </script>

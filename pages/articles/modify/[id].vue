@@ -49,11 +49,10 @@ onBeforeMount(async () => {
       item.content = data.content;
       item.published_at = data.published_at;
       item.category_id = data.category_id;
+      loading.value = false;
     }
   } catch (error) {
     console.log(error);
-  } finally {
-    loading.value = false;
   }
 })
 
@@ -66,12 +65,11 @@ const modifyItems = async () => {
         .update({ title: item.title, content: item.content, published_at: item.published_at, category_id: item.category_id })
         .eq('id', item.id)
       if (error) throw error;
+      loading.value = false;
       router.back();
     }
   } catch (error) {
     console.log(error);
-  } finally {
-    loading.value = false;
   }
 }
 

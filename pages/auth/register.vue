@@ -38,15 +38,11 @@ const triggerRegistration = async () => {
         // emailRedirectTo: 'http://localhost:3000/auth/login',
       },
     });
-    if (error) {
-      throw error;
-    } else {
-      navigateTo('/');
-    }
+    if (error) throw error;
+    state.loading = false;
+    navigateTo('/');
   } catch (error) {
     console.log(error);
-  } finally {
-    state.loading = false;
   }
 }
 </script>

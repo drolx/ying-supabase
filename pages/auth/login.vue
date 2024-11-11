@@ -24,13 +24,10 @@ const triggerLogin = async () => {
     })
 
     if (error) throw error;
-    else {
-      navigateTo('/auth/confirm');
-    }
+    state.loading = false;
+    navigateTo('/auth/confirm');
   } catch (error) {
     console.log(error);
-  } finally {
-    state.loading = false;
   }
 }
 </script>
