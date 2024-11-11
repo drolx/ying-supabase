@@ -23,6 +23,7 @@
     "sup:status": "bun sup status",
     "sup:start": "bun sup start",
     "sup:stop": "bun sup stop",
+    "sup:delete": "bun sup:stop --no-backup",
     "sup:test": "bun sup test",
     "sup:inspect": "bun sup inspect",
     "sup:types": "bun sup gen types --local --lang=typescript --schema public > supabase/database.types.ts"
