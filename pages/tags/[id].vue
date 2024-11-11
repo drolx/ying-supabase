@@ -39,7 +39,7 @@ const item = computedAsync(async () => {
 </script>
 
 <template>
-  <div class="h-100 w-100 d-flex align-center justify-center">
+  <div class="h-100 w-100 pt-8 d-flex align-center justify-center">
     <v-progress-circular v-if="!item" :size="120" :width="5" color="purple" indeterminate></v-progress-circular>
     <v-card v-else class="mx-auto" min-width="500" max-width="600" border flat>
       <v-list-item class="px-6" height="88">
