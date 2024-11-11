@@ -1,35 +1,17 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia';
+import { useAuthStore } from '~/stores/auth';
+
+const authStore = useAuthStore();
+const { triggerLogin } = authStore;
+const { loginState } = storeToRefs(authStore);
+
 definePageMeta({
   permission: false,
   layout: 'auth',
 });
 
-const supabase = useSupabaseClient();
-const state = reactive({
-  loading: false,
-  username: '',
-  password: '',
-})
 const passwordInput = ref();
-
-// TODO: Explore standard validation
-// const isValidLogin = computed(() => state.username.length < 5 && state.password.length < 5);
-
-const triggerLogin = async () => {
-  state.loading = true;
-  try {
-    const { error } = await supabase.auth.signInWithPassword({
-      email: state.username,
-      password: state.password,
-    })
-
-    if (error) throw error;
-    state.loading = false;
-    navigateTo('/auth/confirm');
-  } catch (error) {
-    console.log(error);
-  }
-}
 </script>
 <template>
   <v-card-text>
@@ -39,15 +21,13 @@ const triggerLogin = async () => {
   <v-form>
     <v-row>
       <v-col cols="12">
-        <v-text-field type="text" autocomplete="username" autofocus label="Username"
-          placeholder="Your username or email" v-model="state.username" @keyup.enter="() => passwordInput.focus()" />
+        <v-text-field :disabled="loginState.loading" type="text" autocomplete="username" autofocus label="Username"
+          placeholder="Your username or email" v-model="loginState.username" @keyup.enter="() => passwordInput.focus()" />
       </v-col>
-
       <v-col cols="12">
-        <v-text-field autocomplete="current-password" ref="passwordInput" type="password" :label="'Password'"
-          placeholder="Your password" v-model="state.password" @keyup.enter="triggerLogin" />
+        <v-text-field :disabled="loginState.loading" autocomplete="current-password" ref="passwordInput" type="password" :label="'Password'"
+          placeholder="Your password" v-model="loginState.password" @keyup.enter="triggerLogin" />
       </v-col>
-
       <v-col cols="12" class="py-0 mt-1 mb-4">
         <div class="d-flex align-center justify-space-between flex-wrap">
           <a href="javascript:void(0);">
@@ -59,11 +39,10 @@ const triggerLogin = async () => {
           </nuxt-link>
         </div>
       </v-col>
-
       <v-col cols="12">
-        <v-btn color="primary" class="py-5" block @click="triggerLogin">
+        <v-btn :disabled="loginState.loading" color="primary" class="py-5" block @click="triggerLogin">
           {{ 'Log In' }}
-          <v-progress-circular indeterminate size="22" class="ml-2" v-if="state.loading"></v-progress-circular>
+          <v-progress-circular indeterminate size="22" class="ml-2" v-if="loginState.loading"></v-progress-circular>
         </v-btn>
       </v-col>
 
@@ -75,5 +54,4 @@ const triggerLogin = async () => {
       </v-col>
     </v-row>
   </v-form>
-
 </template>
