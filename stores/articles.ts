@@ -64,10 +64,9 @@ export const useArticles = defineStore('articles', () => {
 
             totalItems.value = count ?? 0;
             serverItems.value = data;
+            loading.value = false;
         } catch (error) {
             console.log(error);
-        } finally {
-            loading.value = false;
         }
     }
 
@@ -105,8 +104,9 @@ export const useArticles = defineStore('articles', () => {
 
     const createItem = async () => {
         try {
-            const { error, data } = await supabase.from('articles').insert(createItemValue).single();
+            const { error, data } = await supabase.from('articles').insert(createItemValue).select().single();
             if (error) throw error;
+            console.log(data);
             createDialog.value = false;
             refreshData();
         } catch (error) {
@@ -120,12 +120,12 @@ export const useArticles = defineStore('articles', () => {
                     .delete({ count: 'exact' })
                     .eq('id', value.id);
                 if (error) throw error;
+
+                refreshData();
+                deleteDialog.value = false;
             }
         } catch (error) {
 
-        } finally {
-            loadItems({ page: itemsPage.value, itemsPerPage: itemsPerPage.value, sortBy: sortBy.value, });
-            deleteDialog.value = false;
         }
     }
 
