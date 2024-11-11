@@ -1,5 +1,5 @@
 {
-  "name": "nuxt-app",
+  "name": "ying-supabase",
   "private": true,
   "type": "module",
   "scripts": {
@@ -7,17 +7,41 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "clean": "rimraf node_modules bun.* dist/*",
+    "sup": "supabase",
+    "db": "bun sup db",
+    "db:diff": "supabase db diff --local --use-migra -f initial_schema",
+    "db:seed-pull": "rimraf supabase/seeds/*; supabase db dump --local --data-only > supabase/seeds/initial.sql",
+    "db:seed": "bun sup seed --local",
+    "db:sync": "bun sup db reset --local",
+    "migration": "bun sup migration",
+    "migration:reset": "rimraf supabase/migration/*; bun migration new initial_schema",
+    "migration:up": "bun migration up --local",
+    "sup:login": "bun sup login",
+    "sup:logout": "bun sup logout",
+    "sup:status": "bun sup status",
+    "sup:start": "bun sup start",
+    "sup:stop": "bun sup stop",
+    "sup:test": "bun sup test",
+    "sup:inspect": "bun sup inspect",
+    "sup:types": "bun sup gen types --local --lang=typescript --schema public > supabase/database.types.ts"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.46.1",
-    "autoprefixer": "^10.4.20",
-    "dotenv": "^16.4.5",
+    "@nuxtjs/supabase": "^1.4.2",
+    "@pinia/nuxt": "^0.7.0",
+    "@vueuse/core": "^11.2.0",
+    "@vueuse/nuxt": "^11.2.0",
     "nuxt": "^3.14.159",
-    "postcss": "^8.4.47",
-    "sass": "^1.80.6",
+    "pinia": "2.2.6",
     "vue": "latest",
     "vue-router": "latest",
-    "vuetify": "^3.7.0-beta.1"
+    "vuetify-nuxt-module": "^0.18.3"
+  },
+  "devDependencies": {
+    "@unocss/nuxt": "^0.64.0",
+    "rimraf": "^6.0.1",
+    "supabase": "^1.219.2",
+    "unocss": "^0.64.0"
   }
 }

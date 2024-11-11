@@ -16,21 +16,32 @@
  * Modified At: Thu Nov 07 2024
  */
 
-// https://nuxt.com/docs/api/configuration/nuxt-config
-
-require('dotenv').config();
-
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
-  css: ['vuetify/lib/styles/main.sass'],
-  plugins: ['~/plugins/supabase.js'],
   devtools: { enabled: true },
-  modules: [],
-  build: {
-    transpile: ['vuetify'],
+  modules: [
+    '@vueuse/nuxt',
+    '@pinia/nuxt',
+    '@nuxtjs/supabase',
+    'vuetify-nuxt-module',
+    '@unocss/nuxt',
+  ],
+  // alias: {
+  //   pinia: "/node_modules/@pinia/nuxt/node_modules/pinia/dist/pinia.mjs"
+  // },
+  runtimeConfig: {
+    public: {  
+      SUPABASE_URL: process.env.SUPABASE_URL,
+      SUPABASE_KEY: process.env.SUPABASE_KEY,
+    }, 
   },
-  publicRuntimeConfig: {  
-    supabaseUrl: process.env.SUPABASE_URL,  
-    supabaseKey: process.env.SUPABASE_KEY,  
-  }, 
+  supabase: {
+    redirectOptions: {
+      login: '/auth/login',
+      callback: '/auth/confirm',
+      include: undefined,
+      exclude: ['/auth/*'],
+      cookieRedirect: true,
+    },
+  }
 })
