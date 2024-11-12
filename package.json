@@ -29,7 +29,8 @@
     "sup:types": "bun sup gen types --local --lang=typescript --schema public > supabase/database.types.ts",
     "types": "bun sup:types; better-supabase-types --singular -i supabase/database.types.ts -o types.d.ts",
     "db:gen": "drizzle-kit generate",
-    "db:sync": "drizzle-kit migrate"
+    "db:sync": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push"
   },
   "dependencies": {
     "@nuxtjs/supabase": "^1.4.2",
