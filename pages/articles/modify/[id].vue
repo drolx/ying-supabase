@@ -16,7 +16,7 @@ definePageMeta({
   }
 });
 
-const { loadCategoryItems, loadTagItems } = articleStore;
+const { loadCategoryItems, loadTagItems, bindTags } = articleStore;
 const { createItemValueTags, categoryItemState, tagItemState } = storeToRefs(articleStore);
 
 const loading = ref(false);
@@ -39,7 +39,14 @@ onBeforeMount(async () => {
   try {
     if (route.params.id) {
       const { data, error } = await supabase.from('articles')
-        .select('*', { count: 'exact' })
+        .select(`
+          *,
+          article_tags (
+            tags (
+                id
+            )
+          )
+        `, { count: 'exact' })
         .eq('id', route.params.id)
         .single();
       if (error) throw error;
@@ -49,6 +56,11 @@ onBeforeMount(async () => {
       item.content = data.content;
       item.published_at = data.published_at;
       item.category_id = data.category_id;
+
+      if (data.id && data.article_tags.length > 0) {
+        createItemValueTags.value = data.article_tags.map(tag => tag.tags?.id as number);
+      }
+
       loading.value = false;
     }
   } catch (error) {
@@ -60,22 +72,13 @@ const modifyItems = async () => {
   loading.value = true;
   try {
     if (item.id !== 0) {
-      console.log(item)
       const { data, error } = await supabase.from('articles')
         .update({ title: item.title, content: item.content, published_at: item.published_at, category_id: item.category_id })
         .eq('id', item.id)
-        .select()
+        .select('*, article_tags()')
         .single();
       if (error) throw error;
-
-      if (data.id && createItemValueTags.value.length > 0) {
-        const commitTags = createItemValueTags.value.map(x => {
-          return { article_id: data.id, tag_id: x };
-        });
-        await supabase.from('article_tags')
-          .insert(commitTags);
-      }
-
+      bindTags(data);
       loading.value = false;
       router.back();
     }

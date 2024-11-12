@@ -13,10 +13,13 @@ definePageMeta({
 });
 
 const loading = ref(false);
-const item = reactive({
-  id: 0,
-  name: ''
-});
+const item = reactive(<{
+  id: number,
+  name: string | null,
+}>{
+    id: 0,
+    name: ''
+  });
 
 onBeforeMount(async () => {
   loading.value = true;

@@ -1,6 +1,7 @@
 import { defineStore, skipHydrate } from 'pinia';
 import { ref } from 'vue';
 import type { Database } from '~/supabase/database.types';
+import type { Articles, ArticleTags } from '~/types';
 import type { CategoryItem, SortItem, TagItem } from '~/types/shared';
 import { getPagingFilter } from '~/util/shared';
 
@@ -106,26 +107,35 @@ export const useArticles = defineStore('articles', () => {
         }
     }
 
+    const bindTags = async (value: any) => {
+        if (value?.id !== 0 && createItemValueTags.value) {
+            await supabase.from('article_tags').delete().eq('article_id', value.id);
+            if (createItemValueTags.value.length > 0) {
+                const tagsValue = createItemValueTags.value.map(tagId => {
+                    return { article_id: value.id, tag_id: tagId };
+                });
+                await supabase.from('article_tags').upsert(tagsValue)
+            }
+
+            createItemValueTags.value = [];
+        }
+    }
+
     const createItem = async () => {
         try {
             const { error, data } = await supabase.from('articles')
                 .insert(createItemValue)
-                .select().single();
+                .select(`*, article_tags()`).single();
             if (error) throw error;
+            bindTags(data);
 
-            if (data.id && createItemValueTags.value.length > 0) {
-                const commitTags = createItemValueTags.value.map(x => {
-                    return { article_id: data.id, tag_id: x };
-                });
-                await supabase.from('article_tags')
-                    .insert(commitTags);
-            }
             createDialog.value = false;
             refreshData();
         } catch (error) {
             console.log(error);
         }
     }
+
     const deleteItem = async (value: any) => {
         try {
             if (value?.id) {
@@ -161,6 +171,7 @@ export const useArticles = defineStore('articles', () => {
         loadCategoryItems,
         loadTagItems,
         createItem,
-        deleteItem
+        deleteItem,
+        bindTags,
     }
 });

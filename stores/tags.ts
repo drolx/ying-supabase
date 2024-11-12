@@ -25,8 +25,6 @@ export const useTags = defineStore('tags', () => {
       const { from, to, ascending, filter } = getPagingFilter(args);
       const { data, count, error } = await supabase.from('tags')
         .select('*', { count: 'exact' })
-        // TODO: For consideration archiving being enabled.
-        // .is('deleted_at', null)
         .range(from, to)
         .order(filter, { ascending })
         .ilike('name', `%${search.value}%`)

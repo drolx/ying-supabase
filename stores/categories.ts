@@ -89,4 +89,4 @@ export const useCategories = defineStore('categories', () => {
     createItem,
     deleteItem,
   }
-})
+});
