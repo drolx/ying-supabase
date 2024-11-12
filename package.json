@@ -26,7 +26,8 @@
     "sup:delete": "bun sup:stop --no-backup",
     "sup:test": "bun sup test",
     "sup:inspect": "bun sup inspect",
-    "sup:types": "bun sup gen types --local --lang=typescript --schema public > supabase/database.types.ts"
+    "sup:types": "bun sup gen types --local --lang=typescript --schema public > supabase/database.types.ts",
+    "types": "bun sup:types; better-supabase-types --singular -i supabase/database.types.ts -o types.d.ts"
   },
   "dependencies": {
     "@nuxtjs/supabase": "^1.4.2",
@@ -41,6 +42,7 @@
   },
   "devDependencies": {
     "@unocss/nuxt": "^0.64.0",
+    "better-supabase-types": "^2.7.6",
     "rimraf": "^6.0.1",
     "supabase": "^1.219.2",
     "unocss": "^0.64.0"

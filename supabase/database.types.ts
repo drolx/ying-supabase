@@ -15,18 +15,21 @@ export type Database = {
           created_at: string
           id: number
           tag_id: number | null
+          updated_at: string | null
         }
         Insert: {
           article_id?: number | null
           created_at?: string
           id?: number
           tag_id?: number | null
+          updated_at?: string | null
         }
         Update: {
           article_id?: number | null
           created_at?: string
           id?: number
           tag_id?: number | null
+          updated_at?: string | null
         }
         Relationships: [
           {
