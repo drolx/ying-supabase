@@ -16,8 +16,8 @@
     "db:seed": "bun sup seed --local",
     "sup:sync": "bun sup db reset --local",
     "migration": "bun sup migration",
-    "migration:reset": "rimraf supabase/migration/*; bun migration new initial",
-    "migration:up": "bun migration up --local",
+    "sup:mig-reset": "rimraf supabase/migration/*; bun migration new initial",
+    "sup:mig-up": "bun migration up --local",
     "sup:login": "bun sup login",
     "sup:logout": "bun sup logout",
     "sup:status": "bun sup status",
@@ -28,9 +28,11 @@
     "sup:inspect": "bun sup inspect",
     "sup:types": "bun sup gen types --local --lang=typescript --schema public > supabase/database.types.ts",
     "types": "bun sup:types; better-supabase-types --singular -i supabase/database.types.ts -o types.d.ts",
-    "db:gen": "drizzle-kit generate",
-    "db:sync": "drizzle-kit migrate",
-    "db:push": "drizzle-kit push"
+    "db:gen-rls": "supabase-drizzle generate --config ./drizzle.config.ts",
+    "db:gen": "drizzle-kit generate --config ./drizzle.config.ts",
+    "db:sync": "drizzle-kit migrate --config ./drizzle.config.ts",
+    "db:push": "drizzle-kit push --config ./drizzle.config.ts",
+    "reset": "rimraf supabase/seeds/* supabase/migrations/*; bun sup:delete; bun sup:start; bun db:gen; bun db:sync; bun types"
   },
   "dependencies": {
     "@nuxtjs/supabase": "^1.4.2",
@@ -42,6 +44,7 @@
     "nuxt": "^3.14.159",
     "pinia": "2.2.6",
     "postgres": "^3.4.5",
+    "supabase-drizzle": "^1.1.2",
     "vue": "latest",
     "vue-router": "latest",
     "vuetify-nuxt-module": "^0.18.3"
