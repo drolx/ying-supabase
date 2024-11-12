@@ -11,36 +11,30 @@ export type Database = {
     Tables: {
       article_tags: {
         Row: {
-          article_id: number | null;
+          article_id: string;
           created_at: string;
-          id: number;
-          tag_id: number | null;
-          updated_at: string | null;
+          tag_id: string;
         };
         Insert: {
-          article_id?: number | null;
+          article_id: string;
           created_at?: string;
-          id?: number;
-          tag_id?: number | null;
-          updated_at?: string | null;
+          tag_id: string;
         };
         Update: {
-          article_id?: number | null;
+          article_id?: string;
           created_at?: string;
-          id?: number;
-          tag_id?: number | null;
-          updated_at?: string | null;
+          tag_id?: string;
         };
         Relationships: [
           {
-            foreignKeyName: "aritcle_tags_article_id_fkey";
+            foreignKeyName: "article_tags_article_id_articles_id_fk";
             columns: ["article_id"];
             isOneToOne: false;
             referencedRelation: "articles";
             referencedColumns: ["id"];
           },
           {
-            foreignKeyName: "aritcle_tags_tag_id_fkey";
+            foreignKeyName: "article_tags_tag_id_tags_id_fk";
             columns: ["tag_id"];
             isOneToOne: false;
             referencedRelation: "tags";
@@ -50,38 +44,35 @@ export type Database = {
       };
       articles: {
         Row: {
-          category_id: number | null;
+          category_id: string | null;
           content: string | null;
           created_at: string;
-          deleted_at: string | null;
-          id: number;
+          id: string;
           published_at: string | null;
           title: string | null;
           updated_at: string | null;
         };
         Insert: {
-          category_id?: number | null;
+          category_id?: string | null;
           content?: string | null;
           created_at?: string;
-          deleted_at?: string | null;
-          id?: number;
+          id: string;
           published_at?: string | null;
           title?: string | null;
           updated_at?: string | null;
         };
         Update: {
-          category_id?: number | null;
+          category_id?: string | null;
           content?: string | null;
           created_at?: string;
-          deleted_at?: string | null;
-          id?: number;
+          id?: string;
           published_at?: string | null;
           title?: string | null;
           updated_at?: string | null;
         };
         Relationships: [
           {
-            foreignKeyName: "articles_category_id_fkey";
+            foreignKeyName: "articles_category_id_categories_id_fk";
             columns: ["category_id"];
             isOneToOne: false;
             referencedRelation: "categories";
@@ -92,51 +83,96 @@ export type Database = {
       categories: {
         Row: {
           created_at: string;
-          deleted_at: string | null;
           description: string | null;
-          id: number;
-          name: string;
+          id: string;
+          name: string | null;
           updated_at: string | null;
         };
         Insert: {
           created_at?: string;
-          deleted_at?: string | null;
           description?: string | null;
-          id?: number;
-          name: string;
+          id?: string;
+          name?: string | null;
           updated_at?: string | null;
         };
         Update: {
           created_at?: string;
-          deleted_at?: string | null;
           description?: string | null;
-          id?: number;
-          name?: string;
+          id?: string;
+          name?: string | null;
           updated_at?: string | null;
+        };
+        Relationships: [];
+      };
+      profiles: {
+        Row: {
+          created_at: string;
+          first_name: string | null;
+          id: string;
+          last_name: string | null;
+          updated_at: string | null;
+          user_id: string | null;
+        };
+        Insert: {
+          created_at?: string;
+          first_name?: string | null;
+          id?: string;
+          last_name?: string | null;
+          updated_at?: string | null;
+          user_id?: string | null;
+        };
+        Update: {
+          created_at?: string;
+          first_name?: string | null;
+          id?: string;
+          last_name?: string | null;
+          updated_at?: string | null;
+          user_id?: string | null;
         };
         Relationships: [];
       };
       tags: {
         Row: {
           created_at: string;
-          deleted_at: string | null;
-          id: number;
+          id: string;
           name: string | null;
           updated_at: string | null;
         };
         Insert: {
           created_at?: string;
-          deleted_at?: string | null;
-          id?: number;
+          id?: string;
           name?: string | null;
           updated_at?: string | null;
         };
         Update: {
           created_at?: string;
-          deleted_at?: string | null;
-          id?: number;
+          id?: string;
           name?: string | null;
           updated_at?: string | null;
+        };
+        Relationships: [];
+      };
+      user_roles: {
+        Row: {
+          created_at: string;
+          id: string;
+          updated_at: string | null;
+          user_id: string;
+          user_role: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          updated_at?: string | null;
+          user_id: string;
+          user_role: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          updated_at?: string | null;
+          user_id?: string;
+          user_role?: string;
         };
         Relationships: [];
       };
@@ -148,14 +184,7 @@ export type Database = {
       [_ in never]: never;
     };
     Enums: {
-      profile_type:
-        | "admin"
-        | "clerk_logistics"
-        | "clerk_transport"
-        | "support"
-        | "tracker"
-        | "finance"
-        | "super_admin";
+      [_ in never]: never;
     };
     CompositeTypes: {
       [_ in never]: never;
@@ -261,34 +290,33 @@ export type CompositeTypes<
     : never;
 
 // Schema: public
-// Enums
-export enum ProfileType {
-  admin = "admin",
-  clerk_logistics = "clerk_logistics",
-  clerk_transport = "clerk_transport",
-  support = "support",
-  tracker = "tracker",
-  finance = "finance",
-  super_admin = "super_admin",
-}
-
 // Tables
-export type ArticleTags = Database["public"]["Tables"]["article_tags"]["Row"];
-export type InsertArticleTags =
+export type ArticleTag = Database["public"]["Tables"]["article_tags"]["Row"];
+export type InsertArticleTag =
   Database["public"]["Tables"]["article_tags"]["Insert"];
-export type UpdateArticleTags =
+export type UpdateArticleTag =
   Database["public"]["Tables"]["article_tags"]["Update"];
 
-export type Articles = Database["public"]["Tables"]["articles"]["Row"];
-export type InsertArticles = Database["public"]["Tables"]["articles"]["Insert"];
-export type UpdateArticles = Database["public"]["Tables"]["articles"]["Update"];
+export type Article = Database["public"]["Tables"]["articles"]["Row"];
+export type InsertArticle = Database["public"]["Tables"]["articles"]["Insert"];
+export type UpdateArticle = Database["public"]["Tables"]["articles"]["Update"];
 
-export type Categories = Database["public"]["Tables"]["categories"]["Row"];
-export type InsertCategories =
+export type Category = Database["public"]["Tables"]["categories"]["Row"];
+export type InsertCategory =
   Database["public"]["Tables"]["categories"]["Insert"];
-export type UpdateCategories =
+export type UpdateCategory =
   Database["public"]["Tables"]["categories"]["Update"];
 
-export type Tags = Database["public"]["Tables"]["tags"]["Row"];
-export type InsertTags = Database["public"]["Tables"]["tags"]["Insert"];
-export type UpdateTags = Database["public"]["Tables"]["tags"]["Update"];
+export type Profile = Database["public"]["Tables"]["profiles"]["Row"];
+export type InsertProfile = Database["public"]["Tables"]["profiles"]["Insert"];
+export type UpdateProfile = Database["public"]["Tables"]["profiles"]["Update"];
+
+export type Tag = Database["public"]["Tables"]["tags"]["Row"];
+export type InsertTag = Database["public"]["Tables"]["tags"]["Insert"];
+export type UpdateTag = Database["public"]["Tables"]["tags"]["Update"];
+
+export type UserRole = Database["public"]["Tables"]["user_roles"]["Row"];
+export type InsertUserRole =
+  Database["public"]["Tables"]["user_roles"]["Insert"];
+export type UpdateUserRole =
+  Database["public"]["Tables"]["user_roles"]["Update"];

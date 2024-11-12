@@ -1,8 +1,8 @@
 import { defineStore, skipHydrate } from 'pinia';
 import { ref } from 'vue';
 import type { Database } from '~/supabase/database.types';
-import type { Articles, ArticleTags } from '~/types';
-import type { CategoryItem, SortItem, TagItem } from '~/types/shared';
+import type { Article, Category, Tag } from '~/types';
+import type { SortItem } from '~/types/shared';
 import { getPagingFilter } from '~/util/shared';
 
 export const useArticles = defineStore('articles', () => {
@@ -20,22 +20,25 @@ export const useArticles = defineStore('articles', () => {
 
     /** Selction items */
 
-    const createItemValue = reactive({
-        title: '',
-        content: '',
+    const createItemValue = reactive<Article>({
+        id: '',
         category_id: null,
+        title: null,
+        content: null,
+        created_at: '',
+        updated_at: null,
         published_at: null,
     });
-    const createItemValueTags = ref<number[]>([]);
+    const createItemValueTags = ref<string[]>([]);
     const categoryItemState = reactive<{
-        value: CategoryItem[],
+        value: Category[],
         loading: boolean,
     }>({
         value: [],
         loading: false,
     });
     const tagItemState = reactive<{
-        value: TagItem[],
+        value: Tag[],
         loading: boolean,
     }>({
         value: [],
@@ -85,7 +88,7 @@ export const useArticles = defineStore('articles', () => {
                 .ilike('name', `%${search}%`)
                 .range(0, 9);
             if (error) throw error;
-            categoryItemState.value = data as CategoryItem[];
+            categoryItemState.value = data as Category[];
             categoryItemState.loading = false;
         } catch (error) {
             console.log(error);
@@ -100,7 +103,7 @@ export const useArticles = defineStore('articles', () => {
                 .ilike('name', `%${search}%`)
                 .range(0, 9);
             if (error) throw error;
-            tagItemState.value = data as TagItem[];
+            tagItemState.value = data as Tag[];
             tagItemState.loading = false;
         } catch (error) {
             console.log(error);
