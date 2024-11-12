@@ -11,7 +11,6 @@ const { loadItems, refreshData, loadCategoryItems, loadTagItems, createItem, del
 const { loading, sortBy, search, itemsPage, itemsPerPage, serverItems, totalItems, createItemValue, createItemValueTags, categoryItemState, tagItemState, createDialog, deleteDialog, } = storeToRefs(articleStore);
 
 const headers = [
-  { title: 'ID', key: 'id' },
   { title: 'Created At', key: 'created_at' },
   { title: 'Title', key: 'title' },
   { title: 'Published At', key: 'published_at' },

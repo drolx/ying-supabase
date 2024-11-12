@@ -9,7 +9,6 @@ const tagsStore = useTags();
 const { refreshData, createItem, loadItems, deleteItem } = tagsStore;
 const { loading, search, createDialog, deleteDialog, createItemValue, sortBy, itemsPage, itemsPerPage, totalItems, serverItems } = storeToRefs(tagsStore);
 const headers = [
-  { title: 'ID', key: 'id' },
   { title: 'Created At', key: 'created_at' },
   { title: 'Name', key: 'name' },
   { title: 'Actions', key: 'actions', sortable: false },

@@ -10,7 +10,6 @@ const { refreshData, createItem, loadItems, deleteItem } = categoriesStore;
 const { loading, search, createDialog, deleteDialog, createItemValue, sortBy, itemsPage, itemsPerPage, totalItems, serverItems } = storeToRefs(categoriesStore);
 
 const headers = [
-    { title: 'ID', key: 'id' },
     { title: 'Created At', key: 'created_at' },
     { title: 'Name', key: 'name' },
     { title: 'Description', key: 'description' },
