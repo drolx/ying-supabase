@@ -63,7 +63,7 @@ onBeforeMount(() => {
             </v-dialog>
         </v-card-title>
         <v-divider></v-divider>
-        <v-data-table :height="500" v-model:search="search" v-model:sort-by="sortBy"
+        <v-data-table class="h-100" height="600" v-model:search="search" v-model:sort-by="sortBy"
             v-model:items-per-page="itemsPerPage" v-model:page="itemsPage" :headers="headers"
             v-model:items="serverItems" v-model:items-length="totalItems" v-model:loading="loading" item-value="name"
             @update:options="loadItems">
