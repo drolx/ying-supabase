@@ -1,24 +1,10 @@
 <script setup lang="ts">
-import { computedAsync } from '@vueuse/core';
+import { storeToRefs } from 'pinia';
+import { useAuthStore } from '~/stores/auth';
 
-const supabase = useSupabaseClient();
-const triggerSignOut = async () => {
-  const { error } = await supabase.auth.signOut();
-  if (error) {
-    console.log(error);
-  } else {
-    navigateTo('/auth/login');
-  }
-}
-
-const user = computedAsync(async () => {
-  const { data } = await supabase.auth.getUser();
-  
-  return {
-    email: data?.user?.email,
-    displayName: `${data.user?.user_metadata?.firstName} ${data.user?.user_metadata?.lastName}`,
-  }
-}, null);
+const authStore = useAuthStore();
+const { triggerSignOut } = authStore;
+const { user } = storeToRefs(authStore);
 
 const drawer = ref(true);
 const rail = ref(false);
@@ -29,7 +15,6 @@ const links = [
   ['mdi-tag-multiple', 'Tags', '/tags'],
 ];
 </script>
-
 
 <template>
   <v-app id="default">
@@ -49,7 +34,6 @@ const links = [
           </v-list-item>
           <v-divider></v-divider>
         </template>
-
         <v-list class="py-8" nav>
           <v-list-item v-for="[icon, text, path] in links" :key="icon" :prepend-icon="icon" :to="path" :title="text"
             link></v-list-item>
@@ -59,7 +43,7 @@ const links = [
         <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
         <v-spacer />
         <v-btn @click="triggerSignOut">
-          Sign Out
+          {{ 'Sign Out' }}
         </v-btn>
       </v-app-bar>
       <v-main>

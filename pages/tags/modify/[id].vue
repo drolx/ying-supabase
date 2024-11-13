@@ -8,15 +8,18 @@ const supabase = useSupabaseClient<Database>();
 definePageMeta({
   validate: async (route
   ) => {
-    return typeof route.params.id === 'string' && /^\d+$/.test(route.params.id)
+    return typeof route.params.id === 'string'
   }
 });
 
 const loading = ref(false);
-const item = reactive({
-  id: 0,
-  name: ''
-});
+const item = reactive(<{
+  id: string,
+  name: string | null,
+}>{
+    id: '',
+    name: ''
+  });
 
 onBeforeMount(async () => {
   loading.value = true;
@@ -30,29 +33,27 @@ onBeforeMount(async () => {
 
       item.name = data.name;
       item.id = data.id;
+      loading.value = false;
     }
   } catch (error) {
     console.log(error);
-  } finally {
-    loading.value = false;
   }
 })
 
 const modifyItems = async () => {
   loading.value = true;
   try {
-    if (item.id !== 0) {
+    if (item.id !== '') {
       console.log(item)
       const { error } = await supabase.from('tags')
         .update({ name: item.name })
         .eq('id', item.id)
       if (error) throw error;
+      loading.value = false;
       router.back();
     }
   } catch (error) {
     console.log(error);
-  } finally {
-    loading.value = false;
   }
 }
 </script>

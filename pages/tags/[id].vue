@@ -11,7 +11,7 @@ const supabase = useSupabaseClient<Database>();
 definePageMeta({
   validate: async (route
   ) => {
-    return typeof route.params.id === 'string' && /^\d+$/.test(route.params.id)
+    return typeof route.params.id === 'string'
   }
 });
 
@@ -26,12 +26,12 @@ const item = computedAsync(async () => {
         .single();
 
       if (error) throw error;
+      loading.value = false;
+
       return data;
     }
   } catch (error) {
     console.log(error);
-  } finally {
-    loading.value = false;
   }
 
   return null;
@@ -44,7 +44,8 @@ const item = computedAsync(async () => {
     <v-card v-else class="mx-auto" min-width="500" max-width="600" border flat>
       <v-list-item class="px-6" height="88">
         <template v-slot:prepend>
-          <v-btn @click="() => router.back()" color="primary" icon="mdi-arrow-left" text="Back" variant="text" slim></v-btn>
+          <v-btn @click="() => router.back()" color="primary" icon="mdi-arrow-left" text="Back" variant="text"
+            slim></v-btn>
         </template>
         <template v-slot:title>
           <span class="font-bold text-h5 text-primary">{{ `Tag Details` }}</span>

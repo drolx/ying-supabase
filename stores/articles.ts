@@ -1,7 +1,8 @@
-import { defineStore } from 'pinia';
+import { defineStore, skipHydrate } from 'pinia';
 import { ref } from 'vue';
 import type { Database } from '~/supabase/database.types';
-import type { CategoryItem, SortItem, TagItem } from '~/types/shared';
+import type { Article, Category, Tag } from '~/types';
+import type { SortItem } from '~/types/shared';
 import { getPagingFilter } from '~/util/shared';
 
 export const useArticles = defineStore('articles', () => {
@@ -18,23 +19,22 @@ export const useArticles = defineStore('articles', () => {
     const deleteDialog = ref(false);
 
     /** Selction items */
-
     const createItemValue = reactive({
+        category_id: null,
         title: '',
         content: '',
-        category_id: null,
         published_at: null,
     });
-    const createItemValueTags = ref();
+    const createItemValueTags = ref<string[]>([]);
     const categoryItemState = reactive<{
-        value: CategoryItem[],
+        value: Category[],
         loading: boolean,
     }>({
         value: [],
         loading: false,
     });
     const tagItemState = reactive<{
-        value: TagItem[],
+        value: Tag[],
         loading: boolean,
     }>({
         value: [],
@@ -50,24 +50,27 @@ export const useArticles = defineStore('articles', () => {
                 .select(`
                   *,
                   categories (
-                      id,
                       name
-                  )
+                  ),
+                  article_tags (
+                    tags (
+                        name
+                    )
+                   )
                   `,
                     { count: 'exact' })
                 .range(from, to)
                 .order(filter, { ascending })
-                .like('title', `%${search.value}%`)
+                .ilike('title', `%${search.value}%`)
 
             const { data, count, error } = await aritclesWithCategoriesQuery;
             if (error) throw error;
 
             totalItems.value = count ?? 0;
             serverItems.value = data;
+            loading.value = false;
         } catch (error) {
             console.log(error);
-        } finally {
-            loading.value = false;
         }
     }
 
@@ -78,10 +81,10 @@ export const useArticles = defineStore('articles', () => {
         try {
             const { data, error } = await supabase.from('categories')
                 .select('*', { count: 'exact' })
-                .like('name', `%${search}%`)
+                .ilike('name', `%${search}%`)
                 .range(0, 9);
             if (error) throw error;
-            categoryItemState.value = data as CategoryItem[];
+            categoryItemState.value = data as Category[];
             categoryItemState.loading = false;
         } catch (error) {
             console.log(error);
@@ -93,61 +96,87 @@ export const useArticles = defineStore('articles', () => {
         try {
             const { data, error } = await supabase.from('tags')
                 .select('*', { count: 'exact' })
-                .like('name', `%${search}%`)
+                .ilike('name', `%${search}%`)
                 .range(0, 9);
             if (error) throw error;
-            tagItemState.value = data as TagItem[];
+            tagItemState.value = data as Tag[];
             tagItemState.loading = false;
         } catch (error) {
             console.log(error);
         }
     }
 
+    type AticleTagType = Database["public"]["Tables"]["articles"]["Row"]
+    const bindTags = async (value: AticleTagType) => {
+        if (value.id !== null && createItemValueTags.value) {
+            await supabase.from('article_tags').delete().eq('article_id', value.id);
+            if (createItemValueTags.value.length > 0) {
+                const tagsValue = createItemValueTags.value.map(tagId => {
+                    return { article_id: value.id, tag_id: tagId };
+                });
+                await supabase.from('article_tags').upsert(tagsValue)
+            }
+
+            createItemValueTags.value = [];
+        }
+    }
+
     const createItem = async () => {
         try {
-            const { error, data } = await supabase.from('articles').insert(createItemValue).single();
+            const { error, data } = await supabase.from('articles')
+                .insert(createItemValue)
+                .select(`*, article_tags()`).single();
             if (error) throw error;
+            bindTags(data);
+
             createDialog.value = false;
+            createItemValue.title = '';
+            createItemValue.category_id = null;
+            createItemValue.content = '';
+            createItemValue.published_at = null;
+
             refreshData();
         } catch (error) {
             console.log(error);
         }
     }
-    const deleteItem = async (value: any) => {
+
+    const deleteItem = async (value: Article) => {
         try {
             if (value?.id) {
                 const { error } = await supabase.from('articles')
-                    .delete({ count: 'exact' })
+                    .delete()
                     .eq('id', value.id);
                 if (error) throw error;
+
+                refreshData();
+                deleteDialog.value = false;
             }
         } catch (error) {
 
-        } finally {
-            loadItems({ page: itemsPage.value, itemsPerPage: itemsPerPage.value, sortBy: sortBy.value, });
-            deleteDialog.value = false;
         }
     }
 
     return {
-        loading,
-        search,
-        itemsPage,
-        itemsPerPage,
-        serverItems,
-        totalItems,
-        sortBy,
+        loading: skipHydrate(loading),
+        search: skipHydrate(search),
+        itemsPage: skipHydrate(itemsPage),
+        itemsPerPage: skipHydrate(itemsPerPage),
+        serverItems: skipHydrate(serverItems),
+        totalItems: skipHydrate(totalItems),
+        sortBy: skipHydrate(sortBy),
+        createDialog,
+        deleteDialog,
         createItemValue,
         createItemValueTags,
         categoryItemState,
         tagItemState,
-        createDialog,
-        deleteDialog,
         loadItems,
         refreshData,
         loadCategoryItems,
         loadTagItems,
         createItem,
-        deleteItem
+        deleteItem,
+        bindTags,
     }
 });

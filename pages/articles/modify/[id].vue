@@ -12,24 +12,24 @@ const supabase = useSupabaseClient<Database>();
 definePageMeta({
   validate: async (route
   ) => {
-    return typeof route.params.id === 'string' && /^\d+$/.test(route.params.id)
+    return typeof route.params.id === 'string'
   }
 });
 
-const { loadCategoryItems, loadTagItems } = articleStore;
+const { loadCategoryItems, loadTagItems, bindTags } = articleStore;
 const { createItemValueTags, categoryItemState, tagItemState } = storeToRefs(articleStore);
 
 const loading = ref(false);
 const item = reactive<{
-  id: number,
-  title: string | null,
-  content: string | null,
+  id: string | undefined,
+  title: string,
+  content: string,
   published_at: string | null,
-  category_id: number | null,
+  category_id: string | null,
 }>({
-  id: 0,
-  title: null,
-  content: null,
+  id: undefined,
+  title: '',
+  content: '',
   published_at: null,
   category_id: null,
 });
@@ -39,7 +39,14 @@ onBeforeMount(async () => {
   try {
     if (route.params.id) {
       const { data, error } = await supabase.from('articles')
-        .select('*', { count: 'exact' })
+        .select(`
+          *,
+          article_tags (
+            tags (
+                id
+            )
+          )
+        `, { count: 'exact' })
         .eq('id', route.params.id)
         .single();
       if (error) throw error;
@@ -49,29 +56,34 @@ onBeforeMount(async () => {
       item.content = data.content;
       item.published_at = data.published_at;
       item.category_id = data.category_id;
+
+      if (data.id && data.article_tags.length > 0) {
+        createItemValueTags.value = data.article_tags.map(tag => tag.tags?.id as string);
+      }
+
+      loading.value = false;
     }
   } catch (error) {
     console.log(error);
-  } finally {
-    loading.value = false;
   }
 })
 
 const modifyItems = async () => {
   loading.value = true;
   try {
-    if (item.id !== 0) {
-      console.log(item)
-      const { error } = await supabase.from('articles')
-        .update({ title: item.title, content: item.content, published_at: item.published_at, category_id: item.category_id })
+    if (item?.id) {
+      const { data, error } = await supabase.from('articles')
+        .update(item)
         .eq('id', item.id)
+        .select('*, article_tags()')
+        .single();
       if (error) throw error;
+      bindTags(data);
+      loading.value = false;
       router.back();
     }
   } catch (error) {
     console.log(error);
-  } finally {
-    loading.value = false;
   }
 }
 

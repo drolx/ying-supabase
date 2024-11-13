@@ -1,81 +1,22 @@
 <script lang="ts" setup>
-import type { Database } from '~/supabase/database.types';
+import { storeToRefs } from 'pinia';
+import { useTags } from '~/stores/tags';
 import { useDate } from 'vuetify'
-import type { SortItem } from '~/types/shared';
-import { getPagingFilter } from '~/util/shared';
 
-const date = useDate()
-const supabase = useSupabaseClient<Database>();
+const date = useDate();
+const tagsStore = useTags();
 
-const loading = ref(false);
-const search = ref('');
-const itemsPage = ref(1);
-const itemsPerPage = ref(10);
-const serverItems = ref<any[]>([]);
-const totalItems = ref(0);
-const sortBy = ref<SortItem[]>([]);
-
+const { refreshData, createItem, loadItems, deleteItem } = tagsStore;
+const { loading, search, createDialog, deleteDialog, createItemValue, sortBy, itemsPage, itemsPerPage, totalItems, serverItems } = storeToRefs(tagsStore);
 const headers = [
-  { title: 'ID', key: 'id' },
   { title: 'Created At', key: 'created_at' },
   { title: 'Name', key: 'name' },
   { title: 'Actions', key: 'actions', sortable: false },
 ];
 
-const loadItems = async (args: { page: number, itemsPerPage: number, sortBy: SortItem[] }) => {
-  loading.value = true
-  try {
-    const { from, to, ascending, filter } = getPagingFilter(args);
-    const { data, count, error } = await supabase.from('tags')
-      .select('*', { count: 'exact' })
-      // TODO: For consideration archiving being enabled.
-      // .is('deleted_at', null)
-      .range(from, to)
-      .order(filter, { ascending })
-      .like('name', `%${search.value}%`)
-
-    if (error) throw error;
-    totalItems.value = count ?? 0;
-    serverItems.value = data;
-  } catch (error) {
-    console.log(error);
-  } finally {
-    loading.value = false;
-  }
-}
-
-const refreshData = () => loadItems({ page: itemsPage.value, itemsPerPage: itemsPerPage.value, sortBy: sortBy.value, });
-const createDialog = ref(false);
-const deleteDialog = ref(false);
-const createItemValue = reactive({
-  name: '',
-});
-const createItem = async () => {
-  try {
-    const { error } = await supabase.from('tags').insert(createItemValue);
-    if (error) throw error;
-    createDialog.value = false;
-    refreshData();
-  } catch (error) {
-    console.log(error);
-  }
-}
-const deleteItem = async (value: any) => {
-  try {
-    if (value?.id) {
-      const { error, count } = await supabase.from('tags')
-        .delete({ count: 'exact' })
-        .eq('id', value.id)
-
-      if (error) throw error;
-    }
-  } catch (error) {
-
-  } finally {
-    loadItems({ page: itemsPage.value, itemsPerPage: itemsPerPage.value, sortBy: sortBy.value, });
-    deleteDialog.value = false;
-  }
-}
+onBeforeMount(() => {
+  createItemValue.value.name = '';
+})
 </script>
 
 <template>
@@ -132,7 +73,6 @@ const deleteItem = async (value: any) => {
         <v-btn variant="plain" class="me-3" density="comfortable" color="warning" icon="mdi-pencil"
           :to="`/tags/modify/${item.id}`">
         </v-btn>
-
         <!-- Delete Confirmation -->
         <v-dialog v-model="deleteDialog" max-width="380">
           <template v-slot:activator="{ props: activatorProps }">

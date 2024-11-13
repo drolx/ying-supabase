@@ -11,13 +11,20 @@ const { loadItems, refreshData, loadCategoryItems, loadTagItems, createItem, del
 const { loading, sortBy, search, itemsPage, itemsPerPage, serverItems, totalItems, createItemValue, createItemValueTags, categoryItemState, tagItemState, createDialog, deleteDialog, } = storeToRefs(articleStore);
 
 const headers = [
-  { title: 'ID', key: 'id' },
   { title: 'Created At', key: 'created_at' },
   { title: 'Title', key: 'title' },
   { title: 'Published At', key: 'published_at' },
   { title: 'Category', key: 'categories.name' },
+  // { title: 'Tags', key: 'article_tags' },
   { title: 'Actions', key: 'actions', sortable: false },
 ];
+
+onBeforeMount(() => {
+    createItemValue.value.title = '';
+    createItemValue.value.content = '';
+    createItemValue.value.published_at = null;
+    createItemValue.value.category_id = null;
+});
 
 watchEffect(() => {
   if (createDialog.value) {
@@ -93,6 +100,9 @@ watchEffect(() => {
           {{ date.format(value, 'keyboardDateTime24h') }}
         </v-chip>
       </template>
+      <!-- <template v-slot:item.article_tags="{ value }">
+        <span v-for="tags in value" rounded class="text-xs text-accent">{{ `${tags.tags?.name}, ` }}</span>
+      </template> -->
       <template v-slot:loading>
         <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
       </template>
