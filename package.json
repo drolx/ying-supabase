@@ -10,10 +10,9 @@
     "postinstall": "nuxt prepare",
     "clean": "rimraf node_modules bun.* dist/*",
     "sup": "supabase",
-    "db": "bun sup db",
-    "db:diff": "supabase db diff --local --use-migra -f initial",
-    "db:seed-pull": "rimraf supabase/seeds/*; supabase db dump --local --data-only > supabase/seeds/initial.sql",
-    "db:seed": "bun sup seed --local",
+    "sup:diff": "supabase db diff --local --use-migra -f initial",
+    "sup:seed-pull": "rimraf supabase/seeds/*; supabase db dump --local --data-only > supabase/seeds/initial.sql",
+    "sup:seed": "bun sup seed --local",
     "sup:sync": "bun sup db reset --local",
     "migration": "bun sup migration",
     "sup:mig-reset": "rimraf supabase/migration/*; bun migration new initial",
@@ -32,7 +31,8 @@
     "db:gen": "drizzle-kit generate --config ./drizzle.config.ts",
     "db:sync": "drizzle-kit migrate --config ./drizzle.config.ts",
     "db:push": "drizzle-kit push --config ./drizzle.config.ts",
-    "reset": "rimraf supabase/seeds/* supabase/migrations/*; bun sup:delete; bun sup:start; bun db:gen; bun db:sync; bun types"
+    "db:seed": "tsx supabase/seed.ts",
+    "reset": "rimraf supabase/seeds/* supabase/migrations/*; bun sup:delete; bun sup:start; bun db:gen; bun db:sync; bun db:seed; bun types"
   },
   "dependencies": {
     "@nuxtjs/supabase": "^1.4.2",
@@ -50,11 +50,14 @@
     "vuetify-nuxt-module": "^0.18.3"
   },
   "devDependencies": {
+    "@faker-js/faker": "^9.2.0",
+    "@types/pg": "^8.11.10",
     "@unocss/nuxt": "^0.64.0",
     "better-supabase-types": "^2.7.6",
     "drizzle-kit": "^0.28.0",
     "rimraf": "^6.0.1",
     "supabase": "^1.219.2",
+    "tsx": "^4.19.2",
     "unocss": "^0.64.0"
   }
 }

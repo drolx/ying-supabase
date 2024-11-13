@@ -12,10 +12,11 @@ export default defineConfig({
         url: process.env.DB_URL!,
     },
     schemaFilter: ['public'],
-    // policies: './policies.config.ts',
+    strict: true,
     entities: {
         roles: {
             provider: 'supabase',
         }
     }
+    // policies: './policies.config.ts',
 });

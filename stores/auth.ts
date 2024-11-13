@@ -1,9 +1,15 @@
 import { defineStore, skipHydrate } from 'pinia';
-import { computedAsync } from '@vueuse/core';
 
 export const useAuthStore = defineStore('profile', () => {
   const supabase = useSupabaseClient();
 
+  const user = reactive<{
+    email: string,
+    displayName: string,
+  }>({
+    email: '..',
+    displayName: '..',
+  })
   const loginState = reactive({
     loading: false,
     username: '',
@@ -19,14 +25,11 @@ export const useAuthStore = defineStore('profile', () => {
     passwordRepeat: '',
   });
 
-  const user = computedAsync(async () => {
+  const loadUserProfile = async () => {
     const { data } = await supabase.auth.getUser();
-    
-    return {
-      email: data?.user?.email,
-      displayName: `${data.user?.user_metadata?.firstName} ${data.user?.user_metadata?.lastName}`,
-    }
-  }, null);
+    user.email = `${data?.user?.email}`;
+    user.displayName = `${data.user?.user_metadata?.firstName} ${data.user?.user_metadata?.lastName}`;
+  }
 
   // TODO: Explore standard validation
   // const isValidLogin = computed(() => state.username.length < 5 && state.password.length < 5);
@@ -71,6 +74,7 @@ export const useAuthStore = defineStore('profile', () => {
       if (error) throw error;
       registrationState.loading = false;
       navigateTo('/');
+      loadUserProfile();
     } catch (error) {
       console.log(error);
     }
@@ -84,6 +88,10 @@ export const useAuthStore = defineStore('profile', () => {
       navigateTo('/auth/login');
     }
   }
+
+  onMounted(() => {
+    loadUserProfile();
+  })
 
   return {
     user: skipHydrate(user),

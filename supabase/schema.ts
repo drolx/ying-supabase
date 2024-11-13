@@ -90,5 +90,11 @@ export const tagsRelations = relations(tags, ({ many }) => ({
 export type InsertUser = typeof users.$inferInsert;
 export type SelectUser = typeof users.$inferSelect;
 
-export type InsertArticle = typeof users.$inferInsert;
-export type SelectArticle = typeof users.$inferSelect;
+export type InsertTag = typeof tags.$inferInsert;
+export type SelectTag = typeof tags.$inferSelect;
+
+export type InsertCategory = typeof categories.$inferInsert;
+export type SelectCategory = typeof categories.$inferSelect;
+
+export type InsertArticle = typeof articles.$inferInsert;
+export type SelectArticle = typeof articles.$inferSelect;
