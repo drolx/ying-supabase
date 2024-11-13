@@ -20,19 +20,20 @@
     "sup:login": "bun sup login",
     "sup:logout": "bun sup logout",
     "sup:status": "bun sup status",
-    "sup:start": "bun sup start",
+    "sup:start": "bun sup start --ignore-health-check",
     "sup:stop": "bun sup stop",
     "sup:delete": "bun sup:stop --no-backup",
     "sup:test": "bun sup test",
     "sup:inspect": "bun sup inspect",
     "sup:types": "bun sup gen types --local --lang=typescript --schema public > supabase/database.types.ts",
-    "types": "bun sup:types; better-supabase-types --singular -i supabase/database.types.ts -o types.d.ts",
+    "gen:types": "bun sup:types; better-supabase-types --singular -i supabase/database.types.ts -o types.d.ts",
     "db:gen-rls": "supabase-drizzle generate --config ./drizzle.config.ts",
     "db:gen": "drizzle-kit generate --config ./drizzle.config.ts",
     "db:sync": "drizzle-kit migrate --config ./drizzle.config.ts",
     "db:push": "drizzle-kit push --config ./drizzle.config.ts",
-    "db:seed": "tsx supabase/seed.ts",
-    "reset": "rimraf supabase/seeds/* supabase/migrations/*; bun sup:delete; bun sup:start; bun db:gen; bun db:sync; bun db:seed; bun types"
+    "db:seed": "bun supabase/seed.ts",
+    "start": "bun sup:start; bun db:seed; bun gen:types",
+    "reset": "rimraf supabase/seeds/* supabase/migrations/*; bun sup:delete; bun sup:start; bun db:gen; bun db:sync; bun db:seed; bun gen:types"
   },
   "dependencies": {
     "@nuxtjs/supabase": "^1.4.2",
@@ -51,13 +52,11 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^9.2.0",
-    "@types/pg": "^8.11.10",
     "@unocss/nuxt": "^0.64.0",
     "better-supabase-types": "^2.7.6",
     "drizzle-kit": "^0.28.0",
     "rimraf": "^6.0.1",
     "supabase": "^1.219.2",
-    "tsx": "^4.19.2",
     "unocss": "^0.64.0"
   }
 }
