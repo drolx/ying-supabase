@@ -1,5 +1,6 @@
 import { defineStore, skipHydrate } from 'pinia'
 import type { Database } from '~/supabase/database.types';
+import type { Category } from '~/types';
 import type { SortItem } from '~/types/shared';
 import { getPagingFilter } from '~/util/shared';
 
@@ -56,7 +57,7 @@ export const useCategories = defineStore('categories', () => {
       console.log(error);
     }
   }
-  const deleteItem = async (value: any) => {
+  const deleteItem = async (value: Category) => {
     try {
       if (value?.id) {
         const { error, count } = await supabase.from('categories')
@@ -64,7 +65,10 @@ export const useCategories = defineStore('categories', () => {
           .eq('id', value.id)
 
         if (error) throw error;
-        refreshData();
+        if(count && count > 0) {
+          console.log(`Deleted:: ${count}`);
+          refreshData();
+        }
         deleteDialog.value = false;
       }
     } catch (error) {

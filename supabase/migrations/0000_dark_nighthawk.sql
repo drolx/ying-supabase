@@ -3,16 +3,16 @@ CREATE TABLE IF NOT EXISTS "articles" (
 	"title" text NOT NULL,
 	"content" text NOT NULL,
 	"category_id" uuid,
-	"published_at" timestamp DEFAULT now(),
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp
+	"published_at" timestamp with time zone DEFAULT now(),
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone
 );
 --> statement-breakpoint
 ALTER TABLE "articles" ENABLE ROW LEVEL SECURITY;--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "article_tags" (
 	"article_id" uuid,
 	"tag_id" uuid,
-	"created_at" timestamp DEFAULT now() NOT NULL,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	CONSTRAINT "article_tags_article_id_tag_id_pk" PRIMARY KEY("article_id","tag_id")
 );
 --> statement-breakpoint
@@ -21,8 +21,8 @@ CREATE TABLE IF NOT EXISTS "categories" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"name" text NOT NULL,
 	"description" text,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone
 );
 --> statement-breakpoint
 ALTER TABLE "categories" ENABLE ROW LEVEL SECURITY;--> statement-breakpoint
@@ -31,8 +31,8 @@ CREATE TABLE IF NOT EXISTS "profiles" (
 	"user_id" uuid,
 	"first_name" text NOT NULL,
 	"last_name" text NOT NULL,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone,
 	CONSTRAINT "profiles_user_id_unique" UNIQUE("user_id")
 );
 --> statement-breakpoint
@@ -40,8 +40,8 @@ ALTER TABLE "profiles" ENABLE ROW LEVEL SECURITY;--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "tags" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"name" text NOT NULL,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone
 );
 --> statement-breakpoint
 ALTER TABLE "tags" ENABLE ROW LEVEL SECURITY;--> statement-breakpoint
@@ -49,8 +49,8 @@ CREATE TABLE IF NOT EXISTS "user_roles" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"user_id" uuid NOT NULL,
 	"user_role" text NOT NULL,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone,
 	CONSTRAINT "user_roles_user_id_unique" UNIQUE("user_id")
 );
 --> statement-breakpoint

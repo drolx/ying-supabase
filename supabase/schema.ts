@@ -23,8 +23,8 @@ export const userRoles = pgTable('user_roles', {
         .unique()
         .notNull(),
     userRole: text('user_role').notNull(),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at').$onUpdate(() => new Date()),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).$onUpdate(() => new Date()),
 }, (_t) => [...defaultPolicy]);
 
 export const profiles = pgTable('profiles', {
@@ -34,23 +34,23 @@ export const profiles = pgTable('profiles', {
         .unique(),
     firstName: text('first_name').notNull(),
     lastName: text('last_name').notNull(),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at').$onUpdate(() => new Date()),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).$onUpdate(() => new Date()),
 }, (_t) => [...defaultPolicy]);
 
 export const tags = pgTable('tags', {
     id: uuid('id').defaultRandom().primaryKey(),
     name: text('name').notNull(),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at').$onUpdate(() => new Date()),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).$onUpdate(() => new Date()),
 }, (_t) => [...defaultPolicy]);
 
 export const categories = pgTable('categories', {
     id: uuid('id').defaultRandom().primaryKey(),
     name: text('name').notNull(),
     description: text('description'),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at').$onUpdate(() => new Date()),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).$onUpdate(() => new Date()),
 }, (_t) => [...defaultPolicy]);
 
 export const articles = pgTable('articles', {
@@ -59,15 +59,15 @@ export const articles = pgTable('articles', {
     content: text('content').notNull(),
     categoryId: uuid('category_id')
         .references(() => categories.id, { onDelete: 'set null' }),
-    publishedAt: timestamp('published_at').defaultNow(),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at').$onUpdate(() => new Date()),
+    publishedAt: timestamp('published_at', { withTimezone: true }).defaultNow(),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).$onUpdate(() => new Date()),
 }, (_t) => [...defaultPolicy]);
 
 export const articlesToTags = pgTable('article_tags', {
     articleId: uuid('article_id').references(() => articles.id, { onDelete: 'cascade', onUpdate: 'no action' }),
     tagId: uuid('tag_id').references(() => tags.id, { onDelete: 'cascade', onUpdate: 'no action' }),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 },
     (table) => ([
         ...defaultPolicy,

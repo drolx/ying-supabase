@@ -143,13 +143,15 @@ export const useArticles = defineStore('articles', () => {
 
     const deleteItem = async (value: Article) => {
         try {
-            if (value?.id) {
-                const { error } = await supabase.from('articles')
+            if (value.id) {
+                const { error, count } = await supabase.from('articles')
                     .delete()
                     .eq('id', value.id);
                 if (error) throw error;
-
-                refreshData();
+                if (count && count > 0) {
+                    console.log(`Deleted:: ${count}`);
+                    refreshData();
+                }
                 deleteDialog.value = false;
             }
         } catch (error) {
