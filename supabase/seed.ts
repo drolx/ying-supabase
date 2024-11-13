@@ -28,18 +28,24 @@ const main = async () => {
 
     range(15).map(() => {
         tagsTable.push({
+            id: faker.string.uuid(),
             name: faker.color.human(),
         });
 
         categoriesTable.push({
+            id: faker.string.uuid(),
             name: faker.commerce.department(),
             description: faker.lorem.words(),
         });
+    });
 
+    range(15).map((num) => {
         artclesTable.push({
+            id: faker.string.uuid(),
             title: faker.word.words(),
             content: faker.lorem.paragraph(),
             publishedAt: new Date(),
+            categoryId: categoriesTable[num].id,
         })
     });
 
