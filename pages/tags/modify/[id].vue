@@ -8,16 +8,16 @@ const supabase = useSupabaseClient<Database>();
 definePageMeta({
   validate: async (route
   ) => {
-    return typeof route.params.id === 'string' && /^\d+$/.test(route.params.id)
+    return typeof route.params.id === 'string'
   }
 });
 
 const loading = ref(false);
 const item = reactive(<{
-  id: number,
+  id: string,
   name: string | null,
 }>{
-    id: 0,
+    id: '',
     name: ''
   });
 
@@ -43,7 +43,7 @@ onBeforeMount(async () => {
 const modifyItems = async () => {
   loading.value = true;
   try {
-    if (item.id !== 0) {
+    if (item.id !== '') {
       console.log(item)
       const { error } = await supabase.from('tags')
         .update({ name: item.name })

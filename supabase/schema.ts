@@ -32,31 +32,31 @@ export const profiles = pgTable('profiles', {
     userId: uuid('user_id')
         .references(() => users.id)
         .unique(),
-    firstName: text('first_name'),
-    lastName: text('last_name'),
+    firstName: text('first_name').notNull(),
+    lastName: text('last_name').notNull(),
     createdAt: timestamp('created_at').notNull().defaultNow(),
     updatedAt: timestamp('updated_at').$onUpdate(() => new Date()),
 }, (_t) => [...defaultPolicy]);
 
 export const tags = pgTable('tags', {
     id: uuid('id').defaultRandom().primaryKey(),
-    name: text('name'),
+    name: text('name').notNull(),
     createdAt: timestamp('created_at').notNull().defaultNow(),
     updatedAt: timestamp('updated_at').$onUpdate(() => new Date()),
 }, (_t) => [...defaultPolicy]);
 
 export const categories = pgTable('categories', {
     id: uuid('id').defaultRandom().primaryKey(),
-    name: text('name'),
+    name: text('name').notNull(),
     description: text('description'),
     createdAt: timestamp('created_at').notNull().defaultNow(),
     updatedAt: timestamp('updated_at').$onUpdate(() => new Date()),
 }, (_t) => [...defaultPolicy]);
 
 export const articles = pgTable('articles', {
-    id: uuid('id').primaryKey(),
-    title: text('title'),
-    content: text('content'),
+    id: uuid('id').defaultRandom().primaryKey(),
+    title: text('title').notNull(),
+    content: text('content').notNull(),
     categoryId: uuid('category_id')
         .references(() => categories.id, { onDelete: 'set null' }),
     publishedAt: timestamp('published_at').defaultNow(),
@@ -65,8 +65,8 @@ export const articles = pgTable('articles', {
 }, (_t) => [...defaultPolicy]);
 
 export const articlesToTags = pgTable('article_tags', {
-    articleId: uuid('article_id').references(() => articles.id),
-    tagId: uuid('tag_id').references(() => tags.id),
+    articleId: uuid('article_id').references(() => articles.id, { onDelete: 'cascade', onUpdate: 'no action' }),
+    tagId: uuid('tag_id').references(() => tags.id, { onDelete: 'cascade', onUpdate: 'no action' }),
     createdAt: timestamp('created_at').notNull().defaultNow(),
 },
     (table) => ([

@@ -15,6 +15,11 @@ const headers = [
     { title: 'Description', key: 'description' },
     { title: 'Actions', key: 'actions', sortable: false },
 ];
+
+onBeforeMount(() => {
+    createItemValue.value.name = '';
+    createItemValue.value.description = null;
+})
 </script>
 
 <template>

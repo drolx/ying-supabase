@@ -13,6 +13,10 @@ const headers = [
   { title: 'Name', key: 'name' },
   { title: 'Actions', key: 'actions', sortable: false },
 ];
+
+onBeforeMount(() => {
+  createItemValue.value.name = '';
+})
 </script>
 
 <template>

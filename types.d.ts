@@ -45,29 +45,29 @@ export type Database = {
       articles: {
         Row: {
           category_id: string | null;
-          content: string | null;
+          content: string;
           created_at: string;
           id: string;
           published_at: string | null;
-          title: string | null;
+          title: string;
           updated_at: string | null;
         };
         Insert: {
           category_id?: string | null;
-          content?: string | null;
+          content: string;
           created_at?: string;
-          id: string;
+          id?: string;
           published_at?: string | null;
-          title?: string | null;
+          title: string;
           updated_at?: string | null;
         };
         Update: {
           category_id?: string | null;
-          content?: string | null;
+          content?: string;
           created_at?: string;
           id?: string;
           published_at?: string | null;
-          title?: string | null;
+          title?: string;
           updated_at?: string | null;
         };
         Relationships: [
@@ -85,21 +85,21 @@ export type Database = {
           created_at: string;
           description: string | null;
           id: string;
-          name: string | null;
+          name: string;
           updated_at: string | null;
         };
         Insert: {
           created_at?: string;
           description?: string | null;
           id?: string;
-          name?: string | null;
+          name: string;
           updated_at?: string | null;
         };
         Update: {
           created_at?: string;
           description?: string | null;
           id?: string;
-          name?: string | null;
+          name?: string;
           updated_at?: string | null;
         };
         Relationships: [];
@@ -107,25 +107,25 @@ export type Database = {
       profiles: {
         Row: {
           created_at: string;
-          first_name: string | null;
+          first_name: string;
           id: string;
-          last_name: string | null;
+          last_name: string;
           updated_at: string | null;
           user_id: string | null;
         };
         Insert: {
           created_at?: string;
-          first_name?: string | null;
+          first_name: string;
           id?: string;
-          last_name?: string | null;
+          last_name: string;
           updated_at?: string | null;
           user_id?: string | null;
         };
         Update: {
           created_at?: string;
-          first_name?: string | null;
+          first_name?: string;
           id?: string;
-          last_name?: string | null;
+          last_name?: string;
           updated_at?: string | null;
           user_id?: string | null;
         };
@@ -135,19 +135,19 @@ export type Database = {
         Row: {
           created_at: string;
           id: string;
-          name: string | null;
+          name: string;
           updated_at: string | null;
         };
         Insert: {
           created_at?: string;
           id?: string;
-          name?: string | null;
+          name: string;
           updated_at?: string | null;
         };
         Update: {
           created_at?: string;
           id?: string;
-          name?: string | null;
+          name?: string;
           updated_at?: string | null;
         };
         Relationships: [];

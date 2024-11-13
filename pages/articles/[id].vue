@@ -11,7 +11,7 @@ const supabase = useSupabaseClient<Database>();
 definePageMeta({
     validate: async (route
     ) => {
-        return typeof route.params.id === 'string' && /^\d+$/.test(route.params.id)
+        return typeof route.params.id === 'string'
     }
 });
 
@@ -41,7 +41,6 @@ const item = computedAsync(async () => {
 
             if (error) throw error;
             loading.value = false;
-            console.log(data);
             return data;
         }
     } catch (error) {

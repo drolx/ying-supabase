@@ -12,7 +12,7 @@ const supabase = useSupabaseClient<Database>();
 definePageMeta({
   validate: async (route
   ) => {
-    return typeof route.params.id === 'string' && /^\d+$/.test(route.params.id)
+    return typeof route.params.id === 'string'
   }
 });
 
@@ -21,15 +21,15 @@ const { createItemValueTags, categoryItemState, tagItemState } = storeToRefs(art
 
 const loading = ref(false);
 const item = reactive<{
-  id: number,
-  title: string | null,
-  content: string | null,
+  id: string | undefined,
+  title: string,
+  content: string,
   published_at: string | null,
-  category_id: number | null,
+  category_id: string | null,
 }>({
-  id: 0,
-  title: null,
-  content: null,
+  id: undefined,
+  title: '',
+  content: '',
   published_at: null,
   category_id: null,
 });
@@ -58,7 +58,7 @@ onBeforeMount(async () => {
       item.category_id = data.category_id;
 
       if (data.id && data.article_tags.length > 0) {
-        createItemValueTags.value = data.article_tags.map(tag => tag.tags?.id as number);
+        createItemValueTags.value = data.article_tags.map(tag => tag.tags?.id as string);
       }
 
       loading.value = false;
@@ -71,9 +71,9 @@ onBeforeMount(async () => {
 const modifyItems = async () => {
   loading.value = true;
   try {
-    if (item.id !== 0) {
+    if (item?.id) {
       const { data, error } = await supabase.from('articles')
-        .update({ title: item.title, content: item.content, published_at: item.published_at, category_id: item.category_id })
+        .update(item)
         .eq('id', item.id)
         .select('*, article_tags()')
         .single();

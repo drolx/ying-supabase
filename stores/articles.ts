@@ -19,14 +19,10 @@ export const useArticles = defineStore('articles', () => {
     const deleteDialog = ref(false);
 
     /** Selction items */
-
-    const createItemValue = reactive<Article>({
-        id: '',
+    const createItemValue = reactive({
         category_id: null,
-        title: null,
-        content: null,
-        created_at: '',
-        updated_at: null,
+        title: '',
+        content: '',
         published_at: null,
     });
     const createItemValueTags = ref<string[]>([]);
@@ -110,8 +106,9 @@ export const useArticles = defineStore('articles', () => {
         }
     }
 
-    const bindTags = async (value: any) => {
-        if (value?.id !== 0 && createItemValueTags.value) {
+    type AticleTagType = Database["public"]["Tables"]["articles"]["Row"]
+    const bindTags = async (value: AticleTagType) => {
+        if (value.id !== null && createItemValueTags.value) {
             await supabase.from('article_tags').delete().eq('article_id', value.id);
             if (createItemValueTags.value.length > 0) {
                 const tagsValue = createItemValueTags.value.map(tagId => {
@@ -133,17 +130,22 @@ export const useArticles = defineStore('articles', () => {
             bindTags(data);
 
             createDialog.value = false;
+            createItemValue.title = '';
+            createItemValue.category_id = null;
+            createItemValue.content = '';
+            createItemValue.published_at = null;
+
             refreshData();
         } catch (error) {
             console.log(error);
         }
     }
 
-    const deleteItem = async (value: any) => {
+    const deleteItem = async (value: Article) => {
         try {
             if (value?.id) {
                 const { error } = await supabase.from('articles')
-                    .delete({ count: 'exact' })
+                    .delete()
                     .eq('id', value.id);
                 if (error) throw error;
 

@@ -19,6 +19,13 @@ const headers = [
   { title: 'Actions', key: 'actions', sortable: false },
 ];
 
+onBeforeMount(() => {
+    createItemValue.value.title = '';
+    createItemValue.value.content = '';
+    createItemValue.value.published_at = null;
+    createItemValue.value.category_id = null;
+});
+
 watchEffect(() => {
   if (createDialog.value) {
     loadCategoryItems('');
