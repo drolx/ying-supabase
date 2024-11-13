@@ -17,11 +17,11 @@ An experimental project for exploring the effectiveness and stability of extensi
 
 ### Example for creating / modify data
 
-![Screenshot 1](./assets/demo-ying-00.jpeg "Sample 1")
+![Screenshot 1](./assets/demo-ying-01.jpeg "Sample 1")
 
 ### Example for authentication
 
-![Screenshot 2](./assets/demo-ying-00.jpeg "Sample 2")
+![Screenshot 2](./assets/demo-ying-02.jpeg "Sample 2")
 
 ---
 
