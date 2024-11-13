@@ -47,7 +47,6 @@ const modifyItems = async () => {
   loading.value = true;
   try {
     if (item.id !== '') {
-      console.log(item)
       const { error } = await supabase.from('categories')
         .update({ name: item.name, description: item.description, })
         .eq('id', item.id)
