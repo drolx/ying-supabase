@@ -1,6 +1,6 @@
-import { relations, sql } from 'drizzle-orm';
-import { pgPolicy, pgSchema, pgTable, primaryKey, text, timestamp, uuid } from 'drizzle-orm/pg-core';
-import { authenticatedRole, realtimeMessages } from "drizzle-orm/supabase";
+import { relations, sql } from 'npm:drizzle-orm';
+import { pgPolicy, pgSchema, pgTable, primaryKey, text, timestamp, uuid } from 'npm:drizzle-orm/pg-core';
+import { authenticatedRole, realtimeMessages } from "npm:drizzle-orm/supabase";
 
 const authSchema = pgSchema('auth');
 

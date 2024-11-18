@@ -1,11 +1,10 @@
 import { config } from 'dotenv';
-// import { defineConfig } from 'supabase-drizzle';
 import { defineConfig } from "drizzle-kit";
 
 config({ path: '.env' });
 
 export default defineConfig({
-    schema: './supabase/schema.ts',
+    schema: './supabase/functions/_shared/schema.ts',
     out: './supabase/migrations',
     dialect: 'postgresql',
     dbCredentials: {
@@ -17,6 +16,5 @@ export default defineConfig({
         roles: {
             provider: 'supabase',
         }
-    }
-    // policies: './policies.config.ts',
+    },
 });
