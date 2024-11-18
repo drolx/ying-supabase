@@ -12,9 +12,10 @@ export default defineVuetifyConfiguration({
       light: {
         dark: false,
         colors: {
-          primary: colors.blue.darken1,
+          primary: '#002A6f',
           secondary: colors.blue.lighten4,
           accent: colors.red.lighten3,
+          light: '#F8FBFF'
         }
       },
     },
