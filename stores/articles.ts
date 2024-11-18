@@ -1,7 +1,7 @@
 import { defineStore, skipHydrate } from 'pinia';
 import { ref } from 'vue';
-import type { Database } from '~/supabase/database.types';
-import type { Article, Category, Tag } from '~/types';
+import type { Database } from '~/supabase/functions/_shared/database.types';
+import type { Article, Category, Tag } from '~/supabase/functions/types';
 import type { SortItem } from '~/types/shared';
 import { getPagingFilter } from '~/util/shared';
 

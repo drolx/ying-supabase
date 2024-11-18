@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computedAsync } from '@vueuse/core';
-import type { Database } from '~/supabase/database.types';
+import type { Database } from '~/supabase/functions/_shared/database.types';
 import { useDate } from 'vuetify'
 
 const date = useDate();

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import type { Database } from '~/supabase/database.types';
+import type { Database } from '~/supabase/functions/_shared/database.types';
 import { useArticles } from '~/stores/articles';
 import { VDateInput } from 'vuetify/labs/VDateInput';
 
