@@ -1,6 +1,6 @@
 import { defineStore, skipHydrate } from 'pinia'
-import type { Database } from '~/supabase/database.types';
-import type { Tag } from '~/types';
+import type { Database } from '~/supabase/functions/_shared/database.types';
+import type { Tag } from '~/supabase/functions/types';
 import type { SortItem } from '~/types/shared';
 import { getPagingFilter } from '~/util/shared';
 

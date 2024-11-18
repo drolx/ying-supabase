@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Database } from '~/supabase/database.types';
+import type { Database } from '~/supabase/functions/_shared/database.types';
 
 const route = useRoute();
 const router = useRouter();

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Database } from '~/supabase/database.types';
+import type { Database } from '~/supabase/functions/_shared/database.types';
 
 const route = useRoute();
 const router = useRouter();
@@ -15,7 +15,7 @@ definePageMeta({
 const loading = ref(false);
 const item = reactive(<{
   id: string,
-  name: string | null,
+  name: string,
 }>{
     id: '',
     name: ''
@@ -46,7 +46,7 @@ const modifyItems = async () => {
     if (item.id !== '') {
       console.log(item)
       const { error } = await supabase.from('tags')
-        .update({ name: item.name })
+        .update({ name: item.name, })
         .eq('id', item.id)
       if (error) throw error;
       loading.value = false;

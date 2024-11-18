@@ -1,10 +1,10 @@
 import postgres from 'postgres';
-import { tags, categories, articles, type InsertArticle, type InsertCategory, type InsertTag } from "./schema";
+import { tags, categories, articles, type InsertArticle, type InsertCategory, type InsertTag } from "./functions/_shared/schema";
 import { faker } from "@faker-js/faker";
-import * as dotenv from "dotenv";
+import { config } from "dotenv";
 import { type PostgresJsDatabase, drizzle } from "drizzle-orm/postgres-js";
 
-dotenv.config({ path: ".env" });
+config({ path: ".env" });
 
 export const rangeCustom = (start: number, end: number): number[] => (
     (end > start)
@@ -26,7 +26,7 @@ const main = async () => {
     const categoriesTable: InsertCategory[] = [];
     const artclesTable: InsertArticle[] = [];
 
-    range(15).map(() => {
+    range(5).map(() => {
         tagsTable.push({
             id: faker.string.uuid(),
             name: faker.color.human(),
@@ -39,7 +39,7 @@ const main = async () => {
         });
     });
 
-    range(15).map((num) => {
+    range(5).map((num) => {
         artclesTable.push({
             id: faker.string.uuid(),
             title: faker.word.words(),
