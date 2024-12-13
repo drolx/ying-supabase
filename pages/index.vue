@@ -115,6 +115,8 @@
             <ActivesShipments />
           </v-cols>
         </v-row>
+
+       
   
         <v-container class="pa-0 my-16">
           <Support />
@@ -167,6 +169,11 @@
 
 
       </v-container>
+      <div>
+          <Counts />
+          <ArticleTable />
+        </div>
+        
   </div>
 </template>
 
