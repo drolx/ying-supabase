@@ -6,8 +6,8 @@ import { useArticles } from '~/stores/articles';
 const date = useDate();
 const articleStore = useArticles();
 
-const { loadItems, loadCategoryItems, loadTagItems, createItem, deleteItem } = articleStore;
-const { loading, sortBy, search, itemsPage, itemsPerPage, serverItems, totalItems, createItemValue } = storeToRefs(articleStore);
+const { loadItems, loadCategoryItems, loadTagItems } = articleStore;
+const { loading, sortBy, search, itemsPage, itemsPerPage, serverItems, totalItems, createItemValue, createDialog } = storeToRefs(articleStore);
 
 const headers = [
     { title: 'Title', key: 'title' },
