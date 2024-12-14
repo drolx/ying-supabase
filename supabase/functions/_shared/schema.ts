@@ -84,7 +84,6 @@ export const sources = pgTable('sources', {
 }, (_t) => [...defaultPolicy]);
 
 
-
 export const articlesToSources = pgTable('article_sources', {
     articleId: uuid('article_id').references(() => articles.id, { onDelete: 'cascade', onUpdate: 'no action' }),
     sourceId: uuid('source_id').references(() => sources.id, { onDelete: 'cascade', onUpdate: 'no action' }),
@@ -92,8 +91,6 @@ export const articlesToSources = pgTable('article_sources', {
   },
   (table) => ([...defaultPolicy, primaryKey({ columns: [table.articleId, table.sourceId] })]));
   
-
-
 
 
 
@@ -108,7 +105,6 @@ export type SelectCategory = typeof categories.$inferSelect;
 
 export type InsertArticle = typeof articles.$inferInsert;
 export type SelectArticle = typeof articles.$inferSelect;
-
 
 export type InsertSource = typeof sources.$inferInsert;
 export type SelectSource = typeof sources.$inferSelect;

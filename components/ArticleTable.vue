@@ -7,7 +7,7 @@ const date = useDate();
 const articleStore = useArticles();
 
 const { loadItems, loadCategoryItems, loadTagItems, createItem, deleteItem } = articleStore;
-const { loading, sortBy, search, itemsPage, itemsPerPage, serverItems, totalItems, createItemValue, createItemValueTags, categoryItemState, tagItemState, createDialog, deleteDialog } = storeToRefs(articleStore);
+const { loading, sortBy, search, itemsPage, itemsPerPage, serverItems, totalItems, createItemValue } = storeToRefs(articleStore);
 
 const headers = [
     { title: 'Title', key: 'title' },
@@ -37,7 +37,7 @@ watchEffect(() => {
       <v-icon class="me-4" icon="mdi-post"></v-icon>
       <span class="font-weight-bold text-h5">Recent Articles</span>
       <v-spacer />
-      <!-- View All Button -->
+
       <NuxtLink to="/articles" class="v-btn v-btn--text v-btn--primary">
         View All
       </NuxtLink>
@@ -45,7 +45,7 @@ watchEffect(() => {
 
     <!-- Data Table -->
     <v-data-table
-      class="h-100 px-4" 
+      class="h-100 px-8" 
       height="600"
       v-model:search="search"
       v-model:sort-by="sortBy"

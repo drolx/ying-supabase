@@ -152,31 +152,6 @@ export type Database = {
         };
         Relationships: [];
       };
-      sources: {
-        Row: {
-          created_at: string;
-          updated_at: string | null;
-          id: string;
-          label: string;
-          link: string;
-        };
-        Insert: {
-          created_at?: string;
-          updated_at?: string | null;
-          id?: string;
-          label: string;
-          link: string;
-        };
-        Update: {
-          created_at?: string;
-          updated_at?: string | null;
-          id?: string;
-          label?: string;
-          link?: string;
-        };
-        Relationships: [];
-      };
-    
       user_roles: {
         Row: {
           created_at: string;
@@ -345,7 +320,3 @@ export type InsertUserRole =
   Database["public"]["Tables"]["user_roles"]["Insert"];
 export type UpdateUserRole =
   Database["public"]["Tables"]["user_roles"]["Update"];
-
-export type Source = Database["public"]["Tables"]["sources"]["Row"];
-export type InsertSource = Database["public"]["Tables"]["sources"]["Insert"];
-export type UpdateSource = Database["public"]["Tables"]["sources"]["Update"];
