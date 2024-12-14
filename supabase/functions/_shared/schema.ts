@@ -80,7 +80,8 @@ export const articlesRelations = relations(articles, ({ many, one }) => ({
     categories: one(categories, {
         fields: [articles.categoryId],
         references: [categories.id],
-    })
+    }),
+    sources: many(articlesToSources),
 }));
 
 export const tagsRelations = relations(tags, ({ many }) => ({
@@ -110,9 +111,6 @@ export const sourcesRelations = relations(sources, ({ many }) => ({
     articles: many(articlesToSources),
 }));
 
-export const articlesRelations = relations(articles, ({ many }) => ({
-    sources: many(articlesToSources),
-}));
 
 
 export type InsertUser = typeof users.$inferInsert;
