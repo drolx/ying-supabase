@@ -75,6 +75,20 @@ export const articlesToTags = pgTable('article_tags', {
     ])
 );
 
+export const articlesRelations = relations(articles, ({ many, one }) => ({
+    tags: many(articlesToTags),
+    categories: one(categories, {
+        fields: [articles.categoryId],
+        references: [categories.id],
+    }),
+    sources: many(articlesToSources),
+}));
+
+export const tagsRelations = relations(tags, ({ many }) => ({
+    articles: many(articlesToTags),
+}));
+
+
 export const sources = pgTable('sources', {
     id: uuid('id').defaultRandom().primaryKey(),
     label: text('label').notNull(),
@@ -88,9 +102,14 @@ export const articlesToSources = pgTable('article_sources', {
     articleId: uuid('article_id').references(() => articles.id, { onDelete: 'cascade', onUpdate: 'no action' }),
     sourceId: uuid('source_id').references(() => sources.id, { onDelete: 'cascade', onUpdate: 'no action' }),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  },
-  (table) => ([...defaultPolicy, primaryKey({ columns: [table.articleId, table.sourceId] })]));
-  
+},
+    (table) => ([...defaultPolicy, primaryKey({ columns: [table.articleId, table.sourceId] })])
+);
+
+
+export const sourcesRelations = relations(sources, ({ many }) => ({
+    articles: many(articlesToSources),
+}));
 
 
 
@@ -108,3 +127,4 @@ export type SelectArticle = typeof articles.$inferSelect;
 
 export type InsertSource = typeof sources.$inferInsert;
 export type SelectSource = typeof sources.$inferSelect;
+

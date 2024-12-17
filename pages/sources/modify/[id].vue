@@ -7,7 +7,7 @@ const supabase = useSupabaseClient<Database>();
 
 definePageMeta({
   validate: async (route) => {
-    return typeof route.params.id === 'string';
+    return typeof route.params.id === 'string'
   }
 });
 
