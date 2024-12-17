@@ -46,7 +46,7 @@
     "@vueuse/nuxt": "^11.2.0",
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.5",
-    "drizzle-orm": "npm:drizzle-orm@0.36.2",
+    "drizzle-orm": "^0.38.2",
     "npm:drizzle-orm": "npm:drizzle-orm@0.36.2",
     "nuxt": "^3.14.159",
     "pinia": "^2.2.6",

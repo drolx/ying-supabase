@@ -14,6 +14,7 @@ const links = [
   ['mdi-group', 'Categories', '/categories'],
   ['mdi-link', 'Sources', '/sources'],
   ['mdi-tag-multiple', 'Tags', '/tags'],
+  ['mdi-link', 'Sources', '/sources'],
 ];
 </script>
 
