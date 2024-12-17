@@ -8,7 +8,7 @@
       </v-row>
      
       <div>
-          <!-- <Counts /> -->
+          <Counts />
           <ArticleTable />
         </div>
         
